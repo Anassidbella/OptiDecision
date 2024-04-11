@@ -1,29 +1,80 @@
-// In Navbar.js
-import React from 'react';
-import 'bootstrap/dist/css/bootstrap.min.css';
-import { Navbar, Nav, Container } from 'react-bootstrap';
-import { NavLink } from 'react-router-dom'; // Import NavLink
+import React, { useState } from 'react';
+import { NavLink } from 'react-router-dom';
+import { HiMenu } from 'react-icons/hi'; 
+import '../index.css';
 
+const NavbarCss = {
+  navbar: 'bg-[#6C0345] p-3 ',
+  brand: 'text-yellow-300 text-xl font-mono font-semibold',
+  link: 'text-white hover:bg-[#DC6B19] px-3 py-2 rounded-2xl text-sm font-medium no-underline flex mt-2',
+  mobileMenuButton: 'block md:hidden',
+  mobileMenu: 'md:hidden',
+};
 
 function NavigationBar() {
-    return (
-      <Navbar bg="light" expand="lg" fixed="top">
-        <Container>
-          <Navbar.Brand as={NavLink} to="/">OptiDecision</Navbar.Brand>
-          <Navbar.Toggle aria-controls="basic-navbar-nav" />
-          <Navbar.Collapse id="basic-navbar-nav">
-            <Nav className="me-auto">
-              <Nav.Link as={NavLink} to="/" end>Home</Nav.Link>
-              <Nav.Link as={NavLink} to="/about">About Us</Nav.Link>
-              <Nav.Link as={NavLink} to="/services">Services</Nav.Link>
-              <Nav.Link as={NavLink} to="/contact">Contact Us</Nav.Link>
-              <Nav.Link as={NavLink} to="/login">Login</Nav.Link>
-            </Nav>
-          </Navbar.Collapse>
-        </Container>
-      </Navbar>
-    );
-  }
-  
+  const [isOpen, setIsOpen] = useState(false);
+
+  const toggleMenu = () => {
+    setIsOpen(!isOpen);
+  };
+
+  return (
+    <nav className={NavbarCss.navbar}>
+      <div className="container mx-auto md:flex md:justify-between">
+        <div className="flex items-center justify-between">
+          <span className={NavbarCss.brand}>OptiDecision</span>
+          <button
+            className={NavbarCss.mobileMenuButton}
+            onClick={toggleMenu}
+          >
+            <HiMenu className="h-6 w-6 text-white" />
+          </button>
+        </div>
+        <div className={`md:flex md:items-end ${isOpen ? 'block' : 'hidden'}`}> 
+          <NavLink
+            to="/"
+            className={NavbarCss.link}
+            activeClassName="bg-gray-900"
+            onClick={toggleMenu}
+          >
+            Home
+          </NavLink>
+          <NavLink
+            to="/about"
+            className={NavbarCss.link}
+            activeClassName="bg-gray-900"
+            onClick={toggleMenu}
+          >
+            About Us
+          </NavLink>
+          <NavLink
+            to="/services"
+            className={NavbarCss.link}
+            activeClassName="bg-gray-900"
+            onClick={toggleMenu}
+          >
+            Services
+          </NavLink>
+          <NavLink
+            to="/contact"
+            className={NavbarCss.link}
+            activeClassName="bg-gray-900"
+            onClick={toggleMenu}
+          >
+            Contact Us
+          </NavLink>
+          <NavLink
+            to="/login"
+            className={NavbarCss.link}
+            activeClassName="bg-gray-900"
+            onClick={toggleMenu}
+          >
+            Login
+          </NavLink>
+        </div>
+      </div>
+    </nav>
+  );
+}
 
 export default NavigationBar;

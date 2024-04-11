@@ -12,11 +12,6 @@ import PairComparison from './components/pages/PairComparison';
 
 
 
-
-
-
-// Import other page components
-
 function App() {
   return (
     <Router>
