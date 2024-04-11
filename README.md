@@ -125,4 +125,5 @@ This section has moved here: [https://facebook.github.io/create-react-app/docs/t
       ```
       Assurez-vous de remplacer `nom_de_la_branche` par le nom de votre branche.
 
+11 ** git pull : Récupère les modifications depuis un dépôt distant et les fusionne avec la branche locale. **
 
