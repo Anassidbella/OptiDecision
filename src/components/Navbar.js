@@ -4,9 +4,9 @@ import { HiMenu } from 'react-icons/hi';
 import '../index.css';
 
 const NavbarCss = {
-  navbar: 'bg-[#6C0345] p-4',
+  navbar: 'bg-[#6C0345] p-3 ',
   brand: 'text-yellow-300 text-xl font-mono font-semibold',
-  link: 'text-white hover:bg-gray-700 px-3 py-2 rounded-2xl text-sm font-medium',
+  link: 'text-white hover:bg-[#DC6B19] px-3 py-2 rounded-2xl text-sm font-medium no-underline flex mt-2',
   mobileMenuButton: 'block md:hidden',
   mobileMenu: 'md:hidden',
 };
@@ -20,7 +20,7 @@ function NavigationBar() {
 
   return (
     <nav className={NavbarCss.navbar}>
-      <div className="container mx-auto xl:flex xl:justify-between">
+      <div className="container mx-auto md:flex md:justify-between">
         <div className="flex items-center justify-between">
           <span className={NavbarCss.brand}>OptiDecision</span>
           <button
@@ -30,7 +30,7 @@ function NavigationBar() {
             <HiMenu className="h-6 w-6 text-white" />
           </button>
         </div>
-        <div className={`md:flex md:items-center ${isOpen ? 'block' : 'hidden'}`}> 
+        <div className={`md:flex md:items-end ${isOpen ? 'block' : 'hidden'}`}> 
           <NavLink
             to="/"
             className={NavbarCss.link}
