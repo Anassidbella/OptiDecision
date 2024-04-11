@@ -1,3 +1,7 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
 body {
   margin: 0;
   font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', 'Roboto', 'Oxygen',
@@ -10,4 +14,31 @@ body {
 code {
   font-family: source-code-pro, Menlo, Monaco, Consolas, 'Courier New',
     monospace;
+}
+
+.content-container {
+  padding-top: 4rem; /* Adjust based on the actual height of your navbar */
+}
+
+footer {
+  background-color: #f0f0f0; /* Example background color */
+  padding: 1rem 0; /* Example padding */
+  width: 100%;
+}
+
+/* Custom button styles */
+.btn-primary {
+  background-color: #4f46e5; /* Primary button color */
+  color: white;
+  padding: 10px 20px;
+  border: none;
+  border-radius: 8px;
+  font-size: 1rem;
+  font-weight: medium;
+  cursor: pointer;
+  transition: background-color 0.2s ease-in-out;
+}
+
+.btn-primary:hover {
+  background-color: #4338ca; /* Darker shade for hover state */
 }
