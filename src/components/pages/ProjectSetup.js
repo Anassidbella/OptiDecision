@@ -2,21 +2,33 @@ import React, { useState } from 'react';
 import { Container, Row, Col, Form, Button, ListGroup, InputGroup, Alert } from 'react-bootstrap';
 import { useNavigate } from 'react-router-dom'; // Import useNavigate
 
-
 const predefinedProjects = [
   {
     name: 'Optimisation de la Chaine Logistique',
     criteria: [
       { name: 'Efficiency', subCriteria: ['Process', 'Energy Use'] },
       { name: 'Cost', subCriteria: ['Materials', 'Labor'] },
-      // More criteria...
     ],
   },
-  // Additional predefined projects...
+  {
+    name: 'Digital Transformation Initiative',
+    criteria: [
+      { name: 'Strategy', subCriteria: ['Alignment', 'Goals'] },
+      { name: 'Technology', subCriteria: ['Infrastructure', 'Innovation'] },
+      { name: 'Management', subCriteria: ['Change Management', 'Stakeholder Engagement'] },
+    ],
+  },
+  {
+    name: 'Sustainable Energy Development',
+    criteria: [
+      { name: 'Production', subCriteria: ['Efficiency', 'Cost-Effectiveness'] },
+      { name: 'Conservation', subCriteria: ['Resource Management', 'Sustainability Practices'] },
+      { name: 'Innovation', subCriteria: ['New Technologies', 'R&D Investments'] },
+    ],
+  },
 ];
 
 function ProjectSetup() {
-    
   const [projectName, setProjectName] = useState('');
   const [criteria, setCriteria] = useState([]);
   const [displayTree, setDisplayTree] = useState(false);
@@ -24,6 +36,17 @@ function ProjectSetup() {
 
   const goToPairComparison = () => {
     navigate('/pair-comparison', { state: { projectName, criteria } }); // Navigate with state
+  };
+
+  const handleProjectSelection = (event) => {
+    const selectedProjectName = event.target.value;
+    setProjectName(selectedProjectName);
+    const project = predefinedProjects.find(p => p.name === selectedProjectName);
+    if (project) {
+      setCriteria(project.criteria.map(c => ({ ...c, subCriteria: [...c.subCriteria] })));
+    } else {
+      setCriteria([]);
+    }
   };
 
   const addCriteria = () => {
@@ -105,7 +128,7 @@ function ProjectSetup() {
               <Form.Control
                 type="text"
                 value={projectName}
-                onChange={(e) => setProjectName(e.target.value)}
+                onChange={handleProjectSelection}
                 placeholder="Enter or select a project name"
                 list="predefined-projects"
               />
@@ -122,8 +145,7 @@ function ProjectSetup() {
               {displayTree ? 'Hide' : 'Display'} Tree
             </Button>
           </Form>
-          <Button variant="success" onClick={goToPairComparison}>Proceed to Pair Comparison</Button> {/* Button to navigate */}
-
+          <Button variant="success" onClick={goToPairComparison}>Proceed to Pair Comparison</Button>
 
           {displayTree && (
             <div>
