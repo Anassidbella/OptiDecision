@@ -18,15 +18,15 @@ function Footer() {
           <div className='flex justify-between mx-auto'>
             <p className="text-white flex items-center space-x-4">
               OptiDecision - Tous droits réservés
-              <a href="#" className={FooterCss.link}>Privacy Policy</a>
-              <a href="#" className={FooterCss.link}>Terms of Service</a>
+              <a href="/privacyPolicy" className={FooterCss.link}>Privacy Policy</a>
+              <a href="/terms" className={FooterCss.link}>Terms of Service</a>
             </p>
           </div>
           <div className="flex flex-col md:flex-row md:justify-end">
             <div className="flex items-center md:ml-8">
-              <a href="#" className={FooterCss.icon}><FaFacebook /></a>
-              <a href="#" className={FooterCss.icon}><FaTwitter /></a>
-              <a href="#" className={FooterCss.icon}><FaLinkedin /></a>
+              <a href="/facebook" className={FooterCss.icon}><FaFacebook /></a>
+              <a href="/twitter" className={FooterCss.icon}><FaTwitter /></a>
+              <a href="/likendeIn" className={FooterCss.icon}><FaLinkedin /></a>
             </div>
           </div>
         </div>

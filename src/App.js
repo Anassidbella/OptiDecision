@@ -9,6 +9,8 @@ import Login from './components/pages/Login';
 import Footer from './components/Footer'; 
 import ProjectSetup from './components/pages/ProjectSetup';
 import PairComparison from './components/pages/PairComparison';
+import Register from './components/pages/Register';
+
 
 
 
@@ -26,6 +28,7 @@ function App() {
           <Route path="/login" element={<Login />} />
           <Route path="/demo" element={<ProjectSetup />} />
           <Route path="/pair-comparison" element={<PairComparison />} />
+          <Route path="/register" element={<Register />} />
         </Routes>
         </main>
         <Footer />
