@@ -10,7 +10,7 @@ import Footer from './components/Footer';
 import ProjectSetup from './components/pages/ProjectSetup';
 import PairComparison from './components/pages/PairComparison';
 import Register from './components/pages/Register';
-
+import AhpPage from './components/pages/AhpPage'
 
 
 
@@ -29,6 +29,7 @@ function App() {
           <Route path="/demo" element={<ProjectSetup />} />
           <Route path="/pair-comparison" element={<PairComparison />} />
           <Route path="/register" element={<Register />} />
+          <Route path="/ahp" element={<AhpPage />}/>
         </Routes>
         </main>
         <Footer />
