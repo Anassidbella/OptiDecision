@@ -6,35 +6,61 @@ function PairComparison() {
   const location = useLocation();
   const { projectName, criteria = [] } = location.state;
   const [pairwiseComparisons, setPairwiseComparisons] = useState({});
-  const [results, setResults] = useState(null);
+  const [results, setResults] = useState(null);  // Correctly define results and its setter
 
   useEffect(() => {
     const initialComparisons = {};
 
-    // Generate comparisons for every pair of criteria
-    for (let i = 0; i < criteria.length; i++) {
-      for (let j = i + 1; j < criteria.length; j++) {
-        const key1 = `${criteria[i].name} vs ${criteria[j].name}`;
-        const key2 = `${criteria[j].name} vs ${criteria[i].name}`;
-        initialComparisons[key1] = 1;
-        initialComparisons[key2] = 1;
-      }
-      // Generate comparisons for sub-criteria within each criterion
-      criteria[i].subCriteria.forEach((sub, idx) => {
-        criteria[i].subCriteria.forEach((compareSub, compIdx) => {
-          if (idx !== compIdx) {
-            const key = `${criteria[i].name}: ${sub} vs ${compareSub}`;
-            initialComparisons[key] = 1;
-          }
-        });
+    // Initialize comparisons for criteria
+    criteria.forEach((criterion, i) => {
+      criteria.forEach((compareCriterion, j) => {
+        if (i !== j) {
+          const key1 = `${criterion.name} vs ${compareCriterion.name}`;
+          const key2 = `${compareCriterion.name} vs ${criterion.name}`;
+          initialComparisons[key1] = 1;
+          initialComparisons[key2] = 1;
+        }
       });
-    }
+    });
+
+    // Initialize comparisons for sub-criteria within each criterion
+    criteria.forEach(criterion => {
+      if (criterion.subCriteria) {
+        criterion.subCriteria.forEach((sub, i) => {
+          criterion.subCriteria.forEach((compareSub, j) => {
+            if (i !== j) {
+              const key1 = `${criterion.name}: ${sub} vs ${compareSub}`;
+              const key2 = `${criterion.name}: ${compareSub} vs ${sub}`;
+              initialComparisons[key1] = 1;
+              initialComparisons[key2] = 1;
+            }
+          });
+        });
+      }
+    });
 
     setPairwiseComparisons(initialComparisons);
   }, [criteria]);
 
   const handleInputChange = (key, value) => {
-    setPairwiseComparisons(prev => ({ ...prev, [key]: Number(value) }));
+    const numericValue = Number(value);
+    const inverseValue = numericValue ? 1 / numericValue : 0; // Prevent division by zero
+
+    let inverseKey;
+    if (key.includes(':')) { // Handling sub-criteria
+      const parts = key.split(': ');
+      const subParts = parts[1].split(' vs ');
+      inverseKey = `${parts[0]}: ${subParts[1]} vs ${subParts[0]}`;
+    } else { // Handling criteria
+      const parts = key.split(' vs ');
+      inverseKey = `${parts[1]} vs ${parts[0]}`;
+    }
+
+    setPairwiseComparisons(prev => ({
+      ...prev,
+      [key]: numericValue,
+      [inverseKey]: inverseValue
+    }));
   };
 
   const handleSubmit = async () => {
@@ -57,63 +83,35 @@ function PairComparison() {
     }
   };
 
-  const renderPairwiseTable = (criteriaList, title) => (
+  const renderMatrixTable = (criteriaList, title, isSubCriteria = false) => (
     <Card className="mb-3">
       <Card.Header><strong>{title}</strong></Card.Header>
       <Card.Body>
         <Table striped bordered hover>
           <thead>
             <tr>
-              <th>Comparison</th>
-              <th>Value (1-9)</th>
+              <th></th>
+              {criteriaList.map(crit => <th key={crit}>{crit}</th>)}
             </tr>
           </thead>
           <tbody>
-            {Object.entries(criteriaList).map(([key, value]) => (
-              <tr key={key}>
-                <td>{key}</td>
-                <td>
-                  <Form.Control
-                    type="number"
-                    min="1"
-                    max="9"
-                    value={value}
-                    onChange={(e) => handleInputChange(key, e.target.value)}
-                  />
-                </td>
-              </tr>
-            ))}
-          </tbody>
-        </Table>
-      </Card.Body>
-    </Card>
-  );
-
-  const renderResults = () => (
-    <Card className="mt-4">
-      <Card.Header><strong>Calculated Weights</strong></Card.Header>
-      <Card.Body>
-        <Table responsive>
-          <thead>
-            <tr>
-              <th>Criteria / Sub-Criteria</th>
-              <th>Weight</th>
-            </tr>
-          </thead>
-          <tbody>
-            {criteria.map(criterion => (
-              <>
-                <tr key={criterion.name}>
-                  <td>{criterion.name}</td>
-                  <td>{results[criterion.name]}</td>
-                </tr>
-                {criterion.subCriteria.map(sub => (
-                  <tr key={sub}>
-                    <td style={{ paddingLeft: '20px' }}>{sub}</td>
-                    <td>{results[`${criterion.name}: ${sub}`]}</td>
-                  </tr>
+            {criteriaList.map((crit, i) => (
+              <tr key={i}>
+                <td>{crit}</td>
+                {criteriaList.map((compareCrit, j) => (
+                  <td key={j}>
+                    {i !== j ? (
+                      <Form.Control
+                        type="number"
+                        min="1"
+                        max="9"
+                        value={pairwiseComparisons[isSubCriteria ? `${title}: ${crit} vs ${compareCrit}` : `${crit} vs ${compareCrit}`] || 1}
+                        onChange={(e) => handleInputChange(isSubCriteria ? `${title}: ${crit} vs ${compareCrit}` : `${crit} vs ${compareCrit}`, e.target.value)}
+                      />
+                    ) : '-'}
+                  </td>
                 ))}
-              </>
+              </tr>
             ))}
           </tbody>
         </Table>
@@ -126,16 +124,43 @@ function PairComparison() {
       <Row>
         <Col>
           <h2>Pairwise Comparisons for {projectName}</h2>
-          {Object.keys(pairwiseComparisons).filter(key => !key.includes(':')).length > 0 && renderPairwiseTable(
-            Object.fromEntries(Object.entries(pairwiseComparisons).filter(([key]) => !key.includes(':'))),
-            'Criteria Comparisons'
-          )}
-          {Object.keys(pairwiseComparisons).filter(key => key.includes(':')).length > 0 && renderPairwiseTable(
-            Object.fromEntries(Object.entries(pairwiseComparisons).filter(([key]) => key.includes(':'))),
-            'Sub-Criteria Comparisons'
+          {renderMatrixTable(criteria.map(crit => crit.name), 'Criteria Comparisons')}
+          {criteria.map(crit => 
+            crit.subCriteria && crit.subCriteria.length > 1 &&
+            renderMatrixTable(crit.subCriteria, `${crit.name} Sub-Criteria Comparisons`, true)
           )}
           <Button onClick={handleSubmit} className="mt-3">Calculate Weights</Button>
-          {results && renderResults()}
+          {results && (
+            <Card className="mt-4">
+              <Card.Header><strong>Calculated Weights</strong></Card.Header>
+              <Card.Body>
+                <Table responsive>
+                  <thead>
+                    <tr>
+                      <th>Criteria / Sub-Criteria</th>
+                      <th>Weight</th>
+                    </tr>
+                  </thead>
+                  <tbody>
+                    {criteria.map(criterion => (
+                      <>
+                        <tr key={criterion.name}>
+                          <td>{criterion.name}</td>
+                          <td>{results[criterion.name]}</td>
+                        </tr>
+                        {criterion.subCriteria && criterion.subCriteria.map(sub => (
+                          <tr key={sub}>
+                            <td style={{ paddingLeft: '20px' }}>{sub}</td>
+                            <td>{results[`${criterion.name}: ${sub}`]}</td>
+                          </tr>
+                        ))}
+                      </>
+                    ))}
+                  </tbody>
+                </Table>
+              </Card.Body>
+            </Card>
+          )}
         </Col>
       </Row>
     </Container>
