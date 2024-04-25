@@ -17,7 +17,7 @@ import Register from './components/pages/Register';
 function App() {
   return (
     <Router>
-    <div className="d-flex flex-column min-vh-100"> {/* This div wraps your entire app */}
+    <div className="d-flex flex-column min-vh-100 font-mono"> {/* This div wraps your entire app */}
         <NavigationBar />
         <main className="flex-fill"> {/* This main tag wraps the page content and pushes the footer down */}
         <Routes>

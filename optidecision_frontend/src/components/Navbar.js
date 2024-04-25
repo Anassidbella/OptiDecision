@@ -34,7 +34,7 @@ function NavigationBar() {
           <NavLink
             to="/"
             className={NavbarCss.link}
-            activeClassName="bg-gray-900"
+            activeclassname="bg-gray-900"
             onClick={toggleMenu}
           >
             Home
@@ -42,7 +42,7 @@ function NavigationBar() {
           <NavLink
             to="/about"
             className={NavbarCss.link}
-            activeClassName="bg-gray-900"
+            activeclassname="bg-gray-900"
             onClick={toggleMenu}
           >
             About Us
@@ -50,7 +50,7 @@ function NavigationBar() {
           <NavLink
             to="/services"
             className={NavbarCss.link}
-            activeClassName="bg-gray-900"
+            activeclassname="bg-gray-900"
             onClick={toggleMenu}
           >
             Services
@@ -58,7 +58,7 @@ function NavigationBar() {
           <NavLink
             to="/contact"
             className={NavbarCss.link}
-            activeClassName="bg-gray-900"
+            activeclassname="bg-gray-900"
             onClick={toggleMenu}
           >
             Contact Us
@@ -66,10 +66,18 @@ function NavigationBar() {
           <NavLink
             to="/login"
             className={NavbarCss.link}
-            activeClassName="bg-gray-900"
+            activeclassname="bg-gray-900"
             onClick={toggleMenu}
           >
             Login
+          </NavLink>
+          <NavLink
+            to="/demo"
+            className={NavbarCss.link}
+            activeclassname="bg-gray-900"
+            onClick={toggleMenu}
+          >
+            Demo
           </NavLink>
         </div>
       </div>
