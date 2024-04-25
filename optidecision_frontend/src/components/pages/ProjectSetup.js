@@ -1,6 +1,5 @@
 import React, { useState, useEffect, useRef } from 'react';
 import { useNavigate } from 'react-router-dom';
-import { Container, Row, Col, Form, Button, ListGroup, InputGroup, Alert } from 'react-bootstrap';
 import Tree from 'react-d3-tree';
 
 const predefinedProjects = [
@@ -57,19 +56,6 @@ function ProjectSetup() {
     }];
   };
 
-  const renderCustomNodeElement = (rd3tProps) => {
-    const textLength = rd3tProps.nodeDatum.name.length;
-    const rectWidth = Math.max(100, textLength * 7); // Ensure minimum width and dynamically adjust
-    return (
-      <g>
-        <rect width={rectWidth} height={40} x={-rectWidth / 2} y={-20} fill="white" stroke="black" />
-        <text fill="black" x={-rectWidth / 2 + 10} y="0" textAnchor="start" alignmentBaseline="central" style={{ fontSize: '16px' }}>
-          {rd3tProps.nodeDatum.name}
-        </text>
-      </g>
-    );
-  };
-
   const goToPairComparison = () => {
     navigate('/pair-comparison', { state: { projectName, criteria } });
   };
@@ -124,71 +110,81 @@ function ProjectSetup() {
 
   const renderCriteriaList = () => {
     return criteria.map((criterion, index) => (
-      <ListGroup.Item key={index}>
-        <InputGroup className="mb-3">
-          <InputGroup.Text>{`Criteria ${index + 1}`}</InputGroup.Text>
-          <Form.Control
+      <div key={index} className="my-3">
+        <div className="mb-3 flex items-center justify-center">
+          <span>{`Criteria ${index + 1}`}</span>
+          <input
             value={criterion.name}
             onChange={(e) => handleCriteriaChange(index, e.target.value)}
             placeholder={`Criteria ${index + 1} Name`}
+            className="border border-gray-400 rounded-md p-1 ml-3"
           />
-          <Button variant="outline-danger" onClick={() => removeCriteria(index)}>Remove</Button>
-        </InputGroup>
+          <button onClick={() => removeCriteria(index)} className="ml-2 px-2 py-1 bg-red-500 text-white rounded-md transition duration-300 ease-in-out transform hover:scale-105">Remove</button>
+        </div>
         {criterion.subCriteria.map((subCriterion, subIndex) => (
-          <InputGroup key={subIndex} className="mb-1">
-            <InputGroup.Text>{`Sub-Criteria ${index + 1}.${subIndex + 1}`}</InputGroup.Text>
-            <Form.Control
+          <div key={subIndex} className="mb-1 flex items-center justify-center">
+            <span>{`Sub-Criteria ${index + 1}.${subIndex + 1}`}</span>
+            <input
               value={subCriterion}
               onChange={(e) => handleSubCriteriaChange(index, subIndex, e.target.value)}
               placeholder={`Sub-Criteria ${subIndex + 1} Name`}
+              className="border border-gray-400 rounded-md p-1 ml-3"
             />
-            <Button variant="outline-secondary" onClick={() => removeSubCriteria(index, subIndex)}>Remove</Button>
-          </InputGroup>
+            <button onClick={() => removeSubCriteria(index, subIndex)} className="ml-2 px-2 py-1 bg-gray-500 text-white rounded-md transition duration-300 ease-in-out transform hover:scale-105">Remove</button>
+          </div>
         ))}
-        <Button onClick={() => addSubCriteria(index)} disabled={criterion.subCriteria.length >= 3}>Add Sub-Criteria</Button>
-      </ListGroup.Item>
+        <button onClick={() => addSubCriteria(index)} disabled={criterion.subCriteria.length >= 3} className="ml-3 px-2 py-1 bg-blue-500 text-white rounded-md transition duration-300 ease-in-out transform hover:scale-105">Add Sub-Criteria</button>
+      </div>
     ));
   };
 
   return (
-    <Container className="content-container">
-      <Row className="justify-content-md-center">
-        <Col md={8}>
-          <Alert variant="info" className="text-center">Demo Version Limit: Up to 5 Criteria and 3 Sub-Criteria per Criterion</Alert>
-          <h1>Project Setup</h1>
-          <Form>
-            <Form.Group className="mb-3">
-              <Form.Label>Project Name:</Form.Label>
-              <Form.Control
-                type="text"
-                value={projectName}
-                onChange={handleProjectSelection}
-                placeholder="Enter or select a project name"
-                list="predefined-projects"
-              />
-              <datalist id="predefined-projects">
-                {predefinedProjects.map((project, index) => (
-                  <option key={index} value={project.name} />
-                ))}
-              </datalist>
-            </Form.Group>
+    <div className="bg-gray-100 min-h-screen py-8">
+      <div className="container mx-auto">
+        <h1 className="text-center text-3xl font-bold mb-8">Project Setup</h1>
+        <form>
+          <div className="mb-4">
+            <label htmlFor="projectName" className="block">Nom du projet:</label>
+            <input
+              type="text"
+              id="projectName"
+              value={projectName}
+              onChange={handleProjectSelection}
+              placeholder="Enter un nom du projet"
+              list="predefined-projects"
+              className="border border-gray-400 rounded-md p-2 w-full"
+            />
+            <datalist id="predefined-projects">
+              {predefinedProjects.map((project, index) => (
+                <option key={index} value={project.name} />
+              ))}
+            </datalist>
+          </div>
 
-            <Button onClick={addCriteria} disabled={criteria.length >= 5}>Add Criteria</Button>
-            <ListGroup className="my-3">{renderCriteriaList()}</ListGroup>
-            <Button variant="primary" onClick={() => setDisplayTree(!displayTree)}>
+          <div className="flex justify-center mb-4">
+            <button onClick={addCriteria} disabled={criteria.length >= 5} className="px-4 py-2 bg-green-500 text-white rounded-md mr-2 transition duration-300 ease-in-out transform hover:scale-105">Ajouter Critère</button>
+            {renderCriteriaList()}
+          </div>
+
+          <div className="flex justify-center mb-4">
+            <button variant="primary" onClick={() => setDisplayTree(!displayTree)} className="px-4 py-2 bg-blue-500 text-white rounded-md mr-2 transition duration-300 ease-in-out transform hover:scale-105">
               {displayTree ? 'Hide' : 'Display'} Tree
-            </Button>
-            {displayTree && (
-              <div ref={treeContainerRef} style={{ width: '100%', height: '700px' }}>
-                <Tree data={createTreeData()} translate={treeTranslate} orientation="vertical"
-                      pathFunc="straight" renderCustomNodeElement={renderCustomNodeElement} zoomable={false} />
-              </div>
-            )}
-            <Button variant="success" onClick={goToPairComparison}>Proceed to Pair Comparison</Button>
-          </Form>
-        </Col>
-      </Row>
-    </Container>
+            </button>
+          </div>
+
+          {displayTree && (
+            <div ref={treeContainerRef} className="mt-8" style={{ width: '100%', height: '500px' }}>
+              <Tree data={createTreeData()} translate={treeTranslate} orientation="vertical" pathFunc="straight" zoomable={false} />
+            </div>
+          )}
+
+          <div className="flex justify-center">
+            <button onClick={goToPairComparison} className="px-4 py-2 bg-blue-500 text-white rounded-md transition duration-300 ease-in-out transform hover:scale-105">Proceed to Pair Comparison</button>
+          </div>
+
+        </form>
+      </div>
+    </div>
   );
 }
 
