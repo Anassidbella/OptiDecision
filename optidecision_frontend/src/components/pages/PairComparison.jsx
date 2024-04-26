@@ -135,7 +135,7 @@ function PairComparison() {
         <div className="text-center mt-6">
           <button 
             onClick={handleSubmit} 
-            className="px-4 py-2 bg-[#6C0345] text-white rounded-2xl hover:bg-[#4E022E] transition duration-300 ease-in-out"
+            className="px-4 py-2 bg-[#6C0345] text-white rounded-2xl hover:bg-[#4E022E] transition duration-300 ease-in-out  animate-twice animate-infinite animate-duration-1000 transform hover:scale-125"
           >
           Calculate Weights
         </button>
