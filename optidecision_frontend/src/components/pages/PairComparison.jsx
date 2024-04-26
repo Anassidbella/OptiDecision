@@ -5,7 +5,7 @@ function PairComparison() {
   // Récupérer les données de l'URL
   const location = useLocation();
   const { projectName, criteria = [] } = location.state;
-
+  //juste un simple mise a jour
   // État pour stocker les comparaisons et les résultats
   const [pairwiseComparisons, setPairwiseComparisons] = useState({});
   const [results, setResults] = useState(null);
