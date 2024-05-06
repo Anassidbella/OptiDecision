@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react';
-import { useLocation } from 'react-router-dom';
+import { Link, useLocation } from 'react-router-dom';
 
 function PairComparison() {
   // Récupérer les données de l'URL
@@ -173,6 +173,13 @@ function PairComparison() {
     </div>
   </div>
   )}
+        <div className="text-center mt-6">
+          <Link to="/alternative"> {/* Utilisation de Link avec l'URL de la page Alternative */}
+            <button className="px-4 py-2 bg-blue-500 text-white rounded-2xl hover:bg-blue-600 transition duration-300 ease-in-out">
+              Go to Alternative Page
+            </button>
+          </Link>
+        </div>
 
       </div>
     </div>

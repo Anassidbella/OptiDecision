@@ -39,3 +39,5 @@ class CalculateWeightsView(APIView):
         normalized_matrix = comparisons / comparisons.sum(axis=0)
         priority_weights = normalized_matrix.mean(axis=1)
         return priority_weights.tolist()
+
+
