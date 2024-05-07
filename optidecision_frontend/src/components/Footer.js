@@ -1,41 +1,23 @@
 import React from 'react';
-import { FaFacebook, FaTwitter, FaLinkedin } from 'react-icons/fa'; 
-import '../index.css';
+import { FaGithub, FaFacebook, FaGoogle } from 'react-icons/fa';
 
-const FooterCss = {
-  footer: 'bg-[#6C0345] p-4',
-  container: 'container mx-auto justify-between',
-  link: 'text-yellow-300 hover:text-white ml-6',
-  icon: 'text-yellow-300 hover:text-white ml-8 ',
-  names: 'text-gray-200 text-xs',
-};
-
-function Footer() {
+const Footer = () => {
   return (
-    <footer className={FooterCss.footer}>
-      <div className={FooterCss.container}>
-        <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
-          <div className='flex justify-between mx-auto'>
-            <p className="text-white flex items-center space-x-4">
-              OptiDecision - Tous droits réservés
-              <a href="/privacyPolicy" className={FooterCss.link}>Privacy Policy</a>
-              <a href="/terms" className={FooterCss.link}>Terms of Service</a>
-            </p>
-          </div>
-          <div className="flex flex-col md:flex-row md:justify-end">
-            <div className="flex items-center md:ml-8">
-              <a href="/facebook" className={FooterCss.icon}><FaFacebook /></a>
-              <a href="/twitter" className={FooterCss.icon}><FaTwitter /></a>
-              <a href="/likendeIn" className={FooterCss.icon}><FaLinkedin /></a>
-            </div>
-          </div>
+      <footer style={{ backgroundColor: '#A1EAFB', color: '#365486', padding: '20px 0', textAlign: 'center' }}>
+        <div style={{ display: 'flex', justifyContent: 'center', alignItems: 'center', marginBottom: '20px' }}>
+          <button style={{ backgroundColor: '#FDFDFD', border: 'none', marginRight: '10px', padding: '5px', borderRadius: '5px' }}>
+            <a href="https://github.com/" target="_blank" rel="noopener noreferrer" style={{ color: '#000', fontSize: '24px' }}><FaGithub /></a>
+          </button>
+          <button style={{ backgroundColor: '#FFCEF3', border: 'none', marginRight: '10px', padding: '5px', borderRadius: '5px' }}>
+            <a href="https://www.facebook.com/" target="_blank" rel="noopener noreferrer" style={{ color: '#000', fontSize: '24px' }}><FaFacebook /></a>
+          </button>
+          <button style={{ backgroundColor: '#CABBE9', border: 'none', padding: '5px', borderRadius: '5px' }}>
+            <a href="https://www.google.com/" target="_blank" rel="noopener noreferrer" style={{ color: '#000', fontSize: '24px' }}><FaGoogle /></a>
+          </button>
         </div>
-        <div className="mt-4 md:mt-0">
-          <p className="text-gray-200 text-xs">Noussair Abellouch - Anass Idbella - Tarik Elqari- Salma Idmansour - Meriem Achegri</p>
-        </div>
-      </div>
-    </footer>
+        <p style={{ color: '#0F1035', fontSize: '16px', marginTop: '20px', fontWeight: 'bold' }}>© 2024 Tous droits réservés - OptiDecision</p>
+      </footer>
   );
-}
+};
 
 export default Footer;
