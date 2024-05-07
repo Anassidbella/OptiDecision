@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react';
-import { useLocation } from 'react-router-dom';
+import { useNavigate,useLocation } from 'react-router-dom';
 
 function PairComparison() {
   // Récupérer les données de l'URL
@@ -9,7 +9,7 @@ function PairComparison() {
   // État pour stocker les comparaisons et les résultats
   const [pairwiseComparisons, setPairwiseComparisons] = useState({});
   const [results, setResults] = useState(null);
-
+  const navigate=useNavigate();
   // Effet pour initialiser les comparaisons lorsque les critères changent
   useEffect(() => {
     const initialComparisons = {};
@@ -87,7 +87,10 @@ function PairComparison() {
       console.error('Échec du calcul des poids:', error);
     }
   };
-
+  const handleGoToAlternatives = (event) => {
+    event.preventDefault();
+    navigate('/alternative', { state: { projectName, criteria } });
+  };
   return (
     <div className="bg-gray-100 min-h-screen py-8">
       <div className="container mx-auto px-4 md:px-8">
@@ -180,6 +183,11 @@ function PairComparison() {
             Calculer les poids
           </button>
         </div>
+        <div className="flex justify-center">
+          <button onClick={handleGoToAlternatives} className="px-4 py-2 rounded-md transition duration-500 ease-in-out transform hover:scale-125 bg-gradient-to-r from-[#6C0345] via-[#DC6B19] to-[#F7C566] text-white">
+          Passer à la page des alternatives
+        </button>
+          </div>
 
         {/* Affichage des résultats */}
         {results && (
@@ -212,6 +220,7 @@ function PairComparison() {
               </table>
             </div>
           </div>
+          
         )}
       </div>
     </div>
