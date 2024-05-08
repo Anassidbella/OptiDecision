@@ -2,7 +2,7 @@ import React, { useState, useEffect, useRef } from 'react';
 import { useNavigate } from 'react-router-dom';
 import Tree from 'react-d3-tree';
 import { SearchIcon } from '@heroicons/react/outline';
-import { FiGitBranch } from 'react-icons/fi';
+import { FiMinus, FiGitBranch } from 'react-icons/fi';
 
 const predefinedProjects = [
     {
@@ -114,38 +114,39 @@ function ProjectSetup() {
     const renderCriteriaList = () => {
         if (!displayTree) {
             return (
-                <div className="overflow-y-auto max-h-96">
+                <div className="flex overflow-x-auto max-w-full mt-8 space-x-8">
                     {criteria.map((criterion, index) => (
-                        <div key={index} className="border rounded-md p-4 my-4">
-                            <div className="flex items-center justify-between mb-3">
-                                <label htmlFor={`criteria-${index}`} className="text-lg font-semibold">Critère {index + 1} :</label>
-                                <button onClick={() => removeCriteria(index)} className="px-3 py-1 bg-[#CABBE9] text-[#0F1035] rounded-md transition duration-300 ease-in-out transform hover:scale-105">Supprimer</button>
+                        <div key={index} className="w-72 bg-white rounded-md p-4 shadow-md">
+                            <div className="mb-3">
+                                <label htmlFor={`criteria-${index}`} className="text-lg font-semibold block mb-2">Critère {index + 1} :</label>
+                                <input
+                                    type="text"
+                                    id={`criteria-${index}`}
+                                    value={criterion.name}
+                                    onChange={(e) => handleCriteriaChange(index, e.target.value)}
+                                    placeholder={`Nom du critère ${index + 1}`}
+                                    className="border border-gray-300 rounded-md p-2 w-full"
+                                />
                             </div>
-                            <input
-                                type="text"
-                                id={`criteria-${index}`}
-                                value={criterion.name}
-                                onChange={(e) => handleCriteriaChange(index, e.target.value)}
-                                placeholder={`Nom du critère ${index + 1}`}
-                                className="border border-gray-300 rounded-md p-2 w-full"
-                            />
                             {criterion.subCriteria.map((subCriterion, subIndex) => (
-                                <div key={subIndex} className="flex items-center justify-between mt-3">
-                                    <label htmlFor={`sub-criteria-${index}-${subIndex}`} className="text-sm font-medium">Sous-critère {subIndex + 1} :</label>
-                                    <div className="flex items-center">
-                                        <input
-                                            type="text"
-                                            id={`sub-criteria-${index}-${subIndex}`}
-                                            value={subCriterion}
-                                            onChange={(e) => handleSubCriteriaChange(index, subIndex, e.target.value)}
-                                            placeholder={`Nom du sous-critère ${subIndex + 1}`}
-                                            className="border border-gray-300 rounded-md p-2 mr-2"
-                                        />
-                                        <button onClick={() => removeSubCriteria(index, subIndex)} className="px-3 py-1 bg-[#CABBE9] text-[#0F1035] rounded-md transition duration-300 ease-in-out transform hover:scale-105">-</button>
-                                    </div>
+                                <div key={subIndex} className="mb-3 flex items-center">
+                                    <input
+                                        type="text"
+                                        id={`sub-criteria-${index}-${subIndex}`}
+                                        value={subCriterion}
+                                        onChange={(e) => handleSubCriteriaChange(index, subIndex, e.target.value)}
+                                        placeholder={`Nom du sous-critère ${subIndex + 1}`}
+                                        className="border border-gray-300 rounded-md p-2 mr-2 flex-1"
+                                    />
+                                    <button onClick={() => removeSubCriteria(index, subIndex)} className="text-gray-500 hover:text-red-500 focus:outline-none">
+                                        <FiMinus />
+                                    </button>
                                 </div>
                             ))}
-                            <button onClick={(e) => addSubCriteria(index, e)} disabled={criterion.subCriteria.length >= 3} className="px-4 py-2 bg-[#7FC7D9] text-[#0F1035] rounded-md mr-2 my-4 transition duration-300 ease-in-out transform hover:scale-105">Ajouter sous-critère</button>
+                            <div className="flex justify-end">
+                                <button onClick={() => removeCriteria(index)} className="px-3 py-1 bg-[#CABBE9] text-[#0F1035] rounded-md transition duration-300 ease-in-out transform hover:scale-105">Supprimer</button>
+                            </div>
+                            <button onClick={(e) => addSubCriteria(index, e)} disabled={criterion.subCriteria.length >= 3} className="px-4 py-2 bg-[#86469C] text-white rounded-md mt-4 transition duration-300 ease-in-out transform hover:scale-105">Ajouter sous-critère</button>
                         </div>
                     ))}
                 </div>
@@ -165,9 +166,9 @@ function ProjectSetup() {
     };
 
     return (
-        <div className="bg-[#FDFDFD] min-h-screen py-8 ">
-            <div className="container mx-auto bg-[#DCF2F1] p-12 rounded-md shadow-xl border-2 border-gray-300">
-                <h1 className="text-center text-5xl font-mono mb-8 text-[#6C0345]">Configuration du projet</h1>
+        <div className="bg-[#FDFDFD] min-h-screen py-8">
+            <div className="container mx-auto p-12 rounded-md shadow-xl border-2 border-[#CABBE9]">
+                <h1 className="text-center text-4xl font-semibold tracking-wide mb-8 text-[#0F1035]">Configuration du projet</h1>
                 <form>
                     <div className="mb-4 flex items-center justify-center">
                         <div className="relative w-3/4">
@@ -178,7 +179,7 @@ function ProjectSetup() {
                                 onChange={handleProjectSelection}
                                 placeholder="Entrez un nom pour votre projet"
                                 list="predefined-projects"
-                                className="border border-gray-300 rounded-md p-2 pl-10 w-full focus:outline-none focus:ring-2 focus:ring-[#7FC7D9] focus:border-transparent bg-gradient-to-r from-[#0F1035] to-[#A1EAFB] text-transparent bg-[#FDFDFD] hover:bg-[#CABBE9] transition duration-300 shadow-md"
+                                className="border border-gray-300 rounded-md p-2 pl-10 w-full focus:outline-none focus:ring-2 focus:ring-yellow-500 focus:border-transparent bg-gradient-to-r from-[#A1EAFB] to-[#7FC7D9] bg-clip-text text-transparent bg-[#FDFDFD] hover:bg-[#FDFDFD] transition duration-300 shadow-md"
                             />
                             <SearchIcon className="absolute h-6 w-6 text-gray-400 top-1/2 right-3 transform -translate-y-1/2" />
                         </div>
@@ -199,9 +200,7 @@ function ProjectSetup() {
                         </div>
                     </div>
 
-                    <div>
-                        {renderCriteriaList()}
-                    </div>
+                    {renderCriteriaList()}
 
                     {displayTree && (
                         <div ref={treeContainerRef} className="mt-8 shadow-lg border-b-4 mb-8 flex justify-center h-[500px]">
@@ -217,7 +216,7 @@ function ProjectSetup() {
                     )}
 
                     <div className="flex justify-center">
-                        <button onClick={handleGoToPairComparison} className="px-4 py-2 rounded-md transition duration-500 ease-in-out transform hover:scale-125 bg-gradient-to-r from-[#6C0345] via-[#DC6B19] to-[#F7C566] text-white">
+                        <button onClick={handleGoToPairComparison} className="px-4 py-2 rounded-md transition duration-500 ease-in-out transform hover:scale-125 bg-gradient-to-r from-[#0F1035] via-[#7FC7D9] to-[#CABBE9] text-white">
                             Passer à la comparaison par paire
                         </button>
                     </div>
