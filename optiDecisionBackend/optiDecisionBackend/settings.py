@@ -124,3 +124,14 @@ USE_TZ = True
 
 STATIC_URL = '/static/'
 CORS_ALLOW_ALL_ORIGINS = True  # For development only; adjust in production
+
+DATABASES = {
+    'default': {
+        'ENGINE': 'django.db.backends.mysql',
+        'NAME': 'ClientAT',
+        'USER': 'root',
+        'PASSWORD': 'root',
+        'HOST': 'localhost',  # Ou l'adresse de votre serveur MySQL
+        'PORT': '3306',       # Le port MySQL par défaut est 3306
+    }
+}

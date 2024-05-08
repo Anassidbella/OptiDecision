@@ -1,7 +1,13 @@
+# Dans AHPcalculator/views.py
+
+from django.shortcuts import render
+from django.http import JsonResponse
+from .models import CustomUser
+import json
+import numpy as np
 from rest_framework.views import APIView
 from rest_framework.response import Response
 from rest_framework import status
-import numpy as np
 
 class CalculateWeightsView(APIView):
     def post(self, request, *args, **kwargs):
@@ -40,4 +46,18 @@ class CalculateWeightsView(APIView):
         priority_weights = normalized_matrix.mean(axis=1)
         return priority_weights.tolist()
 
-
+def signup(request):
+    if request.method == 'POST':
+        data = json.loads(request.body)
+        try:
+            user = CustomUser.objects.create(
+                first_name=data['firstName'],
+                last_name=data['lastName'],
+                email=data['email'],
+                password=data['password']  # Il est recommandé d'utiliser un hachage de mot de passe
+            )
+            return JsonResponse({'message': 'User created successfully'})
+        except Exception as e:
+            return JsonResponse({'error': str(e)}, status=400)
+    else:
+        return JsonResponse({'error': 'Method not allowed'}, status=405)
