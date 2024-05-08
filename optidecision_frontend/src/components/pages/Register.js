@@ -1,101 +1,61 @@
-import React, { useState } from 'react';
-import { Container, Row, Col, Form, Button } from 'react-bootstrap';
+import React from 'react';
+import {
+    MDBBtn,
+    MDBContainer,
+    MDBRow,
+    MDBCol,
+    MDBCard,
+    MDBCardBody,
+    MDBCardImage,
+    MDBInput,
+    MDBIcon,
+    MDBCheckbox
+} from 'mdb-react-ui-kit';
 
 function Register() {
-    const [formData, setFormData] = useState({
-        firstName: '',
-        lastName: '',
-        email: '',
-        password: '',
-        confirmPassword: '',
-        acceptTerms: false
-    });
-
-    const handleChange = (e) => {
-        const { name, value, type, checked } = e.target;
-        setFormData(prevState => ({
-            ...prevState,
-            [name]: type === 'checkbox' ? checked : value
-        }));
-    };
-
-    const handleSubmit = (e) => {
-        e.preventDefault();
-        // Add form validation and handling logic
-        console.log(formData);
-        alert('Registration Successful!');
-    };
-
     return (
-        <Container className="my-5">
-            <Row className="justify-content-center">
-                <Col md={6}>
-                    <h2>Register</h2>
-                    <Form onSubmit={handleSubmit}>
-                        <Form.Group className="mb-3">
-                            <Form.Label>First Name</Form.Label>
-                            <Form.Control
-                                type="text"
-                                name="firstName"
-                                value={formData.firstName}
-                                onChange={handleChange}
-                                required
-                            />
-                        </Form.Group>
-                        <Form.Group className="mb-3">
-                            <Form.Label>Last Name</Form.Label>
-                            <Form.Control
-                                type="text"
-                                name="lastName"
-                                value={formData.lastName}
-                                onChange={handleChange}
-                                required
-                            />
-                        </Form.Group>
-                        <Form.Group className="mb-3">
-                            <Form.Label>Email</Form.Label>
-                            <Form.Control
-                                type="email"
-                                name="email"
-                                value={formData.email}
-                                onChange={handleChange}
-                                required
-                            />
-                        </Form.Group>
-                        <Form.Group className="mb-3">
-                            <Form.Label>Password</Form.Label>
-                            <Form.Control
-                                type="password"
-                                name="password"
-                                value={formData.password}
-                                onChange={handleChange}
-                                required
-                            />
-                        </Form.Group>
-                        <Form.Group className="mb-3">
-                            <Form.Label>Confirm Password</Form.Label>
-                            <Form.Control
-                                type="password"
-                                name="confirmPassword"
-                                value={formData.confirmPassword}
-                                onChange={handleChange}
-                                required
-                            />
-                        </Form.Group>
-                        <Form.Group className="mb-3">
-                            <Form.Check
-                                type="checkbox"
-                                label="I accept the Terms and Conditions"
-                                name="acceptTerms"
-                                checked={formData.acceptTerms}
-                                onChange={handleChange}
-                            />
-                        </Form.Group>
-                        <Button variant="primary" type="submit">Register</Button>
-                    </Form>
-                </Col>
-            </Row>
-        </Container>
+        <MDBContainer fluid style={{ backgroundColor: '#A1EAFB', minHeight: '100vh' }}>
+            <MDBRow className="justify-content-center align-items-center" style={{ minHeight: '100vh' }}>
+                <MDBCol md='8' lg='6'>
+                    <MDBCard className='text-black' style={{ borderRadius: '15px', backgroundColor: '#FFFFFF', boxShadow: '0px 0px 20px rgba(0, 0, 0, 0.1)' }}>
+                        <MDBCardBody>
+                            <MDBRow className="justify-content-center mb-4">
+                                <MDBCol md="6" className="text-center mb-4">
+                                    <MDBCardImage src='https://mdbcdn.b-cdn.net/img/Photos/new-templates/bootstrap-registration/draw1.webp' alt='Sign up image' />
+                                </MDBCol>
+                                <MDBCol md="8" className="text-center">
+                                    <p className="text-center h2 fw-bold mb-2" style={{ color: '#0F1035' }}>Inscription</p>
+                                    <div className="mb-3 text-start">
+                                        <MDBIcon fas icon="user me-2" size='lg' style={{ color: '#7FC7D9' }} />
+                                        <span style={{ color: '#0F1035' }}>Votre nom</span>
+                                        <MDBInput label='' id='form1' type='text' className='w-75 mx-auto' style={{ backgroundColor: '#FAF3EB', border: 'none', borderRadius: '10px' }} />
+                                    </div>
+                                    <div className="mb-3 text-start">
+                                        <MDBIcon fas icon="envelope me-2" size='lg' style={{ color: '#7FC7D9' }} />
+                                        <span style={{ color: '#0F1035' }}>Votre email</span>
+                                        <MDBInput label='' id='form2' type='email' className='w-75 mx-auto' style={{ backgroundColor: '#FAF3EB', border: 'none', borderRadius: '10px' }} />
+                                    </div>
+                                    <div className="mb-3 text-start">
+                                        <MDBIcon fas icon="lock me-2" size='lg' style={{ color: '#7FC7D9' }} />
+                                        <span style={{ color: '#0F1035' }}>Mot de passe</span>
+                                        <MDBInput label='' id='form3' type='password' className='w-75 mx-auto' style={{ backgroundColor: '#FAF3EB', border: 'none', borderRadius: '10px' }} />
+                                    </div>
+                                    <div className="mb-3 text-start">
+                                        <MDBIcon fas icon="key me-2" size='lg' style={{ color: '#7FC7D9' }} />
+                                        <span style={{ color: '#0F1035' }}>Répétez votre mot de passe</span>
+                                        <MDBInput label='' id='form4' type='password' className='w-75 mx-auto' style={{ backgroundColor: '#FAF3EB', border: 'none', borderRadius: '10px' }} />
+                                    </div>
+                                    <div className='mb-3'>
+                                        <MDBCheckbox name='flexCheck' value='' id='flexCheckDefault' label='Abonnez-vous à notre newsletter' style={{ color: '#0F1035' }} />
+                                    </div>
+                                    <MDBBtn className='mb-3' size='lg' style={{ backgroundColor: '#0F1035' }}>S'inscrire</MDBBtn>
+                                </MDBCol>
+                            </MDBRow>
+                        </MDBCardBody>
+                    </MDBCard>
+                </MDBCol>
+            </MDBRow>
+        </MDBContainer>
     );
 }
 

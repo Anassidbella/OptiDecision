@@ -1,58 +1,92 @@
-import React, { useState } from 'react';
-import { Container, Form, Button, Card } from 'react-bootstrap';
+import React from 'react';
+import { MDBCol, MDBContainer, MDBRow, MDBCard, MDBCardTitle, MDBCardText, MDBCardBody, MDBCardImage, MDBBtn } from 'mdb-react-ui-kit';
 
-function Contact() {
-    const [formData, setFormData] = useState({
-        name: '',
-        email: '',
-        message: '',
-    });
+const cardDetails = [
+    {
+        name: 'Danny McLoan',
+        occupation: 'Expert Ahp',
+        articles: 41,
+        followers: 976,
+        rating: 8.5
+    },
+    {
+        name: 'Alice Smith',
+        occupation: 'Software Engineer',
+        articles: 25,
+        followers: 543,
+        rating: 9.0
+    },
+    {
+        name: 'John Doe',
+        occupation: 'Expert Topsis',
+        articles: 17,
+        followers: 312,
+        rating: 8.2
+    },
+    {
+        name: 'Emily Johnson',
+        occupation: 'Marketing Manager',
+        articles: 33,
+        followers: 789,
+        rating: 8.8
+    },
+    {
+        name: 'Michael Brown',
+        occupation: 'Financial Analyst',
+        articles: 29,
+        followers: 654,
+        rating: 8.7
+    }
+];
 
-    const handleChange = (e) => {
-        const { name, value } = e.target;
-        setFormData({ ...formData, [name]: value });
-    };
-
-    const handleSubmit = (e) => {
-        e.preventDefault();
-        console.log(formData);
-        alert('Message sent! We will get back to you soon.');
-        setFormData({
-            name: '',
-            email: '',
-            message: '',
-        });
-    };
-
+export default function Basic() {
     return (
-        <Container className="d-flex flex-column align-items-center justify-content-center" style={{ minHeight: "100vh" }}>
-            <Card className="w-100" style={{ maxWidth: '500px' }}>
-                <Card.Body>
-                    <h2 className="text-center mb-4">Contact Us</h2> {/* Ensure the title is within Card.Body for proper alignment */}
-                    <Form onSubmit={handleSubmit}>
-                        <Form.Group id="name" className="mb-3">
-                            <Form.Label>Name</Form.Label>
-                            <Form.Control type="text" name="name" value={formData.name} onChange={handleChange} required />
-                        </Form.Group>
-                        <Form.Group id="email" className="mb-3">
-                            <Form.Label>Email</Form.Label>
-                            <Form.Control type="email" name="email" value={formData.email} onChange={handleChange} required />
-                        </Form.Group>
-                        <Form.Group id="message" className="mb-3">
-                            <Form.Label>Message</Form.Label>
-                            <Form.Control as="textarea" rows={3} name="message" value={formData.message} onChange={handleChange} required />
-                        </Form.Group>
-                        <Button className="w-100" type="submit">Send Message</Button>
-                    </Form>
-                </Card.Body>
-            </Card>
-            <div className="text-center mt-3 w-100" style={{ maxWidth: '500px' }}>
-                <p>Alternatively, you can reach us at:</p>
-                <p>Email: contact@optidecision.com</p>
-                <p>Phone: (123) 456-7890</p>
-            </div>
-        </Container>
+        <div className="vh-100" style={{ backgroundColor: '#9de2ff' }}>
+            <MDBContainer>
+                <MDBRow className="justify-content-center">
+                    {cardDetails.map((card, index) => (
+                        <MDBCol key={index} md="9" lg="7" xl="5" className="mt-5">
+                            <MDBCard style={{ borderRadius: '15px' }}>
+                                <MDBCardBody className="p-4">
+                                    <div className="d-flex text-black">
+                                        <div className="flex-shrink-0">
+                                            <MDBCardImage
+                                                style={{ width: '180px', borderRadius: '10px' }}
+                                                src="https://www.ahpnet.com/AHPNet/media/AHPNetMediaLibrary/Profile%20Pictures/AHP_Kurt_343-(002).jpg?width=343&height=343&ext=.jpg"
+                                                alt={`Image de ${card.name}`}
+                                                fluid
+                                            />
+                                        </div>
+                                        <div className="flex-grow-1 ms-3">
+                                            <MDBCardTitle>{card.name}</MDBCardTitle>
+                                            <MDBCardText>{card.occupation}</MDBCardText>
+
+                                            <div className="d-flex justify-content-start rounded-3 p-2 mb-2" style={{ backgroundColor: '#efefef' }}>
+                                                <div>
+                                                    <p className="small text-muted mb-1">Articles</p>
+                                                    <p className="mb-0">{card.articles}</p>
+                                                </div>
+                                                <div className="px-3">
+                                                    <p className="small text-muted mb-1">Followers</p>
+                                                    <p className="mb-0">{card.followers}</p>
+                                                </div>
+                                                <div>
+                                                    <p className="small text-muted mb-1">Rating</p>
+                                                    <p className="mb-0">{card.rating}</p>
+                                                </div>
+                                            </div>
+                                            <div className="d-flex pt-1">
+                                                <MDBBtn outline className="me-1 flex-grow-1">Chat</MDBBtn>
+                                                <MDBBtn className="flex-grow-1">Follow</MDBBtn>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </MDBCardBody>
+                            </MDBCard>
+                        </MDBCol>
+                    ))}
+                </MDBRow>
+            </MDBContainer>
+        </div>
     );
 }
-
-export default Contact;
