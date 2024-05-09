@@ -17,7 +17,7 @@ function Footer() {
         <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
           <div className='flex justify-between mx-auto'>
             <p className="text-white flex items-center space-x-4">
-              OptiDecision - Tous droits réservés
+              OptiDecision - All rights reserved
               <a href="/privacyPolicy" className={FooterCss.link}>Privacy Policy</a>
               <a href="/terms" className={FooterCss.link}>Terms of Service</a>
             </p>

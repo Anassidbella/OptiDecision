@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
-import { Container, Form, Button, Card } from 'react-bootstrap';
-
+import { Container, Form, Card } from 'react-bootstrap';
+import '../css/Contact.css';
 function Contact() {
     const [formData, setFormData] = useState({
         name: '',
@@ -25,10 +25,10 @@ function Contact() {
     };
 
     return (
-        <Container className="d-flex flex-column align-items-center justify-content-center" style={{ minHeight: "100vh" }}>
-            <Card className="w-100" style={{ maxWidth: '500px' }}>
+        <Container className="d-flex flex-column align-items-center justify-content-center contact-container">
+            <Card className="contact-card">
                 <Card.Body>
-                    <h2 className="text-center mb-4">Contact Us</h2> {/* Ensure the title is within Card.Body for proper alignment */}
+                    <h2 className="text-center mb-4">Contact Us</h2>
                     <Form onSubmit={handleSubmit}>
                         <Form.Group id="name" className="mb-3">
                             <Form.Label>Name</Form.Label>
@@ -42,14 +42,14 @@ function Contact() {
                             <Form.Label>Message</Form.Label>
                             <Form.Control as="textarea" rows={3} name="message" value={formData.message} onChange={handleChange} required />
                         </Form.Group>
-                        <Button className="w-100" type="submit">Send Message</Button>
+                        <button className="w-100 contact-button" type="submit">Send Message</button>
                     </Form>
                 </Card.Body>
             </Card>
-            <div className="text-center mt-3 w-100" style={{ maxWidth: '500px' }}>
+            <div className="text-center mt-3 w-100 contact-info">
                 <p>Alternatively, you can reach us at:</p>
-                <p>Email: contact@optidecision.com</p>
-                <p>Phone: (123) 456-7890</p>
+                <p id='email'>Email: <a href='www.gmail.com'> contact@optidecision.com</a></p>
+                <p id='email'>Phone: (123) 456-7890</p>
             </div>
         </Container>
     );

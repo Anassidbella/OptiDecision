@@ -1,0 +1,40 @@
+/* Register.css */
+.register-container {
+    margin-top: 50px; /* Ajoute une marge en haut */
+  }
+  
+  .register-form {
+    background: linear-gradient(to right, #DC6B19, #6C0345); /* Dégradé orange à violet */
+    border-radius: 10px;
+    padding: 40px;
+    color: white;
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+    width: 80%; /* Largeur personnalisée */
+    max-width: 500px; /* Largeur maximale */
+    margin: auto; /* Centrage horizontal */
+    margin-top: 40px;
+  }
+  
+  .register-form-header {
+    text-align: center;
+    margin-bottom: 20px;
+    
+  }
+  
+  .register-form-header h2 {
+    margin-bottom: 0;
+  }
+  
+  .btn-custom {
+    background-color: #6C0345;
+    border-color: #DC6B19;
+    border: 2px solid #F7C566;
+    padding: 10px 20px;
+  }
+  
+  .btn-custom:hover {
+    background-color: #6C0345;
+    border-color: #6C0345;
+
+  }
+  

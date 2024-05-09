@@ -1,5 +1,6 @@
 import React, { useState } from 'react';
-import { Container, Row, Col, Form, Button } from 'react-bootstrap';
+//import { Container, Row, Col, Form, Button } from 'react-bootstrap';
+import '../css/Register.css'
 
 function Register() {
     const [formData, setFormData] = useState({
@@ -27,75 +28,72 @@ function Register() {
     };
 
     return (
-        <Container className="my-5">
-            <Row className="justify-content-center">
-                <Col md={6}>
-                    <h2>Register</h2>
-                    <Form onSubmit={handleSubmit}>
-                        <Form.Group className="mb-3">
-                            <Form.Label>First Name</Form.Label>
-                            <Form.Control
-                                type="text"
-                                name="firstName"
-                                value={formData.firstName}
-                                onChange={handleChange}
-                                required
-                            />
-                        </Form.Group>
-                        <Form.Group className="mb-3">
-                            <Form.Label>Last Name</Form.Label>
-                            <Form.Control
-                                type="text"
-                                name="lastName"
-                                value={formData.lastName}
-                                onChange={handleChange}
-                                required
-                            />
-                        </Form.Group>
-                        <Form.Group className="mb-3">
-                            <Form.Label>Email</Form.Label>
-                            <Form.Control
-                                type="email"
-                                name="email"
-                                value={formData.email}
-                                onChange={handleChange}
-                                required
-                            />
-                        </Form.Group>
-                        <Form.Group className="mb-3">
-                            <Form.Label>Password</Form.Label>
-                            <Form.Control
-                                type="password"
-                                name="password"
-                                value={formData.password}
-                                onChange={handleChange}
-                                required
-                            />
-                        </Form.Group>
-                        <Form.Group className="mb-3">
-                            <Form.Label>Confirm Password</Form.Label>
-                            <Form.Control
-                                type="password"
-                                name="confirmPassword"
-                                value={formData.confirmPassword}
-                                onChange={handleChange}
-                                required
-                            />
-                        </Form.Group>
-                        <Form.Group className="mb-3">
-                            <Form.Check
-                                type="checkbox"
-                                label="I accept the Terms and Conditions"
-                                name="acceptTerms"
-                                checked={formData.acceptTerms}
-                                onChange={handleChange}
-                            />
-                        </Form.Group>
-                        <Button variant="primary" type="submit">Register</Button>
-                    </Form>
-                </Col>
-            </Row>
-        </Container>
+        <div className="container">
+        <div className="row justify-content-center">
+            <div className="col-md-8 register-container">
+                <form className="register-form" onSubmit={handleSubmit}>
+                    <div className="register-form-header">
+                        <h2>Registration</h2>
+                    </div>
+                    <div className="form-group">
+                        <label htmlFor="username">Username</label>
+                        <input
+                            type="text"
+                            className="form-control"
+                            id="username"
+                            name="username"
+                            placeholder="Enter your username"
+                            value={formData.username}
+                            onChange={handleChange}
+                            required
+                        />
+                    </div>
+                    <div className="form-group">
+                        <label htmlFor="email">Email Address</label>
+                        <input
+                            type="email"
+                            className="form-control"
+                            id="email"
+                            name="email"
+                            placeholder="Enter your email address"
+                            value={formData.email}
+                            onChange={handleChange}
+                            required
+                        />
+                    </div>
+                    <div className="form-group">
+                        <label htmlFor="password">Password</label>
+                        <input
+                            type="password"
+                            className="form-control"
+                            id="password"
+                            name="password"
+                            placeholder="Enter your password"
+                            value={formData.password}
+                            onChange={handleChange}
+                            required
+                        />
+                    </div>
+                    <div className="form-group">
+                        <label htmlFor="confirmPassword">Confirm Password</label>
+                        <input
+                            type="password"
+                            className="form-control"
+                            id="confirmPassword"
+                            name="confirmPassword"
+                            placeholder="Confirm your password"
+                            value={formData.confirmPassword}
+                            onChange={handleChange}
+                            required
+                        />
+                    </div>
+                    {/* <button type="submit" className="btn btn-orange btn-block">S'inscrire</button> */}
+                    <button type="submit" className="btn-custom">Register</button>
+
+                </form>
+            </div>
+        </div>
+    </div>
     );
 }
 

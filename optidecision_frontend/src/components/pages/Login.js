@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
-import { Container, Row, Col, Form, Button } from 'react-bootstrap';
-
+//import { Button } from 'react-bootstrap';
+import '../css/login.css'
 function Login() {
     const [formData, setFormData] = useState({
         email: '',
@@ -23,37 +23,33 @@ function Login() {
     };
 
     return (
-        <Container className="d-flex flex-column align-items-center justify-content-center" style={{ minHeight: "100vh" }}>
-            <Row className="justify-content-center w-100 mb-5">
-                <Col xs={12} sm={8} md={6} lg={4}>
-                    <div className="content-container">
-                        <h2 className="text-3xl font-bold">Login</h2>
+        <div className="container">
+        <div className="row justify-content-center">
+            <div className="col-md-8 login-container">
+                <form className="login-form" onSubmit={handleSubmit}>
+                    <div className="login-form-header">
+                        <h2>LOGIN</h2>
                     </div>
-                    <Form onSubmit={handleSubmit} className="p-4 p-md-5 border rounded-3 bg-light">
-                        <Form.Group className="mb-3" controlId="formBasicEmail">
-                            <Form.Label>Email address</Form.Label>
-                            <Form.Control type="email" placeholder="Enter email" name="email" value={formData.email} onChange={handleChange} />
-                        </Form.Group>
-
-                        <Form.Group className="mb-3" controlId="formBasicPassword">
-                            <Form.Label>Password</Form.Label>
-                            <Form.Control type="password" placeholder="Password" name="password" value={formData.password} onChange={handleChange} />
-                        </Form.Group>
-
-                        <Form.Group className="mb-3" controlId="formBasicCheckbox">
-                            <Form.Check type="checkbox" label="Remember me" name="rememberMe" checked={formData.rememberMe} onChange={handleChange} />
-                        </Form.Group>
-
-                        <Button variant="primary" type="submit" className="w-100">
-                            Login
-                        </Button>
-                        <div className="text-center mt-3">
-                            Don’t have an account? <a href="/register" className="text-primary">Register</a>
-                        </div>
-                    </Form>
-                </Col>
-            </Row>
-        </Container>
+                    <div className="form-group">
+                        <label htmlFor="username">Email address</label>
+                        <input type="text" className="form-control" id="username" placeholder="Email address" name="email" value={formData.email} onChange={handleChange} />
+                    </div>
+                    <div className="form-group">
+                        <label htmlFor="password">Password</label>
+                        <input type="password" className="form-control" id="password" placeholder="Password" name="password" value={formData.password} onChange={handleChange} />
+                    </div>
+                    <div className="form-check">
+                        <input type="checkbox" className="form-check-input" id="rememberMe" name="rememberMe" checked={formData.rememberMe} onChange={handleChange} />
+                        <label className="form-check-label" htmlFor="rememberMe">Remember me</label>
+                    </div>
+                    <button type="submit" className="btn-custom">Login</button>
+                </form>
+                <div className="bottom-links">
+                    <a href="./Register">Mot de passe oublié?</a> | <a href="./Register">Register</a>
+                </div>
+            </div>
+        </div>
+    </div>
     );
 }
 
