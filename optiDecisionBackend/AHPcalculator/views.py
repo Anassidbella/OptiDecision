@@ -41,3 +41,45 @@ class CalculateWeightsView(APIView):
         return priority_weights.tolist()
 
 
+class TOPSISView(APIView):
+    def post(self, request, *args, **kwargs):
+        data = request.data.get('alternatives', [])  # Récupérer les données des alternatives depuis la requête POST
+        
+        # Extracting criteria names and scores
+        criteria_names = []
+        scores = []
+        for alternative in data:
+            criteria_names.append(alternative['name'])
+            scores.append(list(alternative['scores'].values()))
+        
+        scores = np.array(scores)
+        
+        # Step 1: Normalisation de la matrice de décision
+        norm_scores = scores / np.linalg.norm(scores, axis=0)
+        
+        # Step 2: Calcul des poids normalisés pour chaque critère
+        num_criteria = len(criteria_names)
+        weights = np.mean(norm_scores, axis=0)
+        
+        # Step 3: Détermination de la solution idéale positive (PIS) et de la solution idéale négative (NIS)
+        pis = np.max(norm_scores, axis=0)
+        nis = np.min(norm_scores, axis=0)
+        
+        # Step 4: Calcul des distances euclidiennes entre chaque alternative et la solution idéale positive et négative
+        d_pos = np.linalg.norm(norm_scores - pis, axis=1)
+        d_neg = np.linalg.norm(norm_scores - nis, axis=1)
+        
+        # Step 5: Calcul des mesures de proximité pour chaque alternative
+        proximity = d_neg / (d_pos + d_neg)
+        
+        # Step 6: Classement des alternatives en fonction de leurs mesures de proximité
+        ranked_indices = np.argsort(proximity)
+        ranked_alternatives = [criteria_names[i] for i in ranked_indices]
+        
+        # Renvoyer les résultats au format JSON
+        results = {
+            "message": "TOPSIS analysis completed successfully",
+            "ranked_alternatives": ranked_alternatives,
+            # Ajouter d'autres données de résultats si nécessaire
+        }
+        return Response(results, status=status.HTTP_200_OK)

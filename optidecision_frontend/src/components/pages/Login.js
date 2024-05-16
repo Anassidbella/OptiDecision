@@ -1,60 +1,82 @@
 import React, { useState } from 'react';
-import { Container, Row, Col, Form, Button } from 'react-bootstrap';
+import { useNavigate } from 'react-router-dom';
+import { FaReact } from 'react-icons/fa'; // Import React icon from react-icons
 
 function Login() {
-    const [formData, setFormData] = useState({
-        email: '',
-        password: '',
-        rememberMe: false,
-    });
+  const [formData, setFormData] = useState({ email: '', password: '' });
+  const navigate = useNavigate();
 
-    const handleChange = (e) => {
-        const { name, value, type, checked } = e.target;
-        setFormData(prevState => ({
-            ...prevState,
-            [name]: type === 'checkbox' ? checked : value,
-        }));
-    };
+  const handleChange = (e) => {
+    const { name, value } = e.target;
+    setFormData({ ...formData, [name]: value });
+  };
 
-    const handleSubmit = (e) => {
-        e.preventDefault();
-        console.log(formData);
-        alert('Login Submitted');
-    };
+  const handleSubmit = (e) => {
+    e.preventDefault();
+    console.log(formData);
+    // Handle login logic here
+    alert('Login successful!');
+    navigate('/dashboard'); // Adjust the path as needed
+  };
 
-    return (
-        <Container className="d-flex flex-column align-items-center justify-content-center" style={{ minHeight: "100vh" }}>
-            <Row className="justify-content-center w-100 mb-5">
-                <Col xs={12} sm={8} md={6} lg={4}>
-                    <div className="content-container">
-                        <h2 className="text-3xl font-bold">Login</h2>
-                    </div>
-                    <Form onSubmit={handleSubmit} className="p-4 p-md-5 border rounded-3 bg-light">
-                        <Form.Group className="mb-3" controlId="formBasicEmail">
-                            <Form.Label>Email address</Form.Label>
-                            <Form.Control type="email" placeholder="Enter email" name="email" value={formData.email} onChange={handleChange} />
-                        </Form.Group>
+  const navigateToRegister = () => {
+    navigate('/register');
+  };
 
-                        <Form.Group className="mb-3" controlId="formBasicPassword">
-                            <Form.Label>Password</Form.Label>
-                            <Form.Control type="password" placeholder="Password" name="password" value={formData.password} onChange={handleChange} />
-                        </Form.Group>
-
-                        <Form.Group className="mb-3" controlId="formBasicCheckbox">
-                            <Form.Check type="checkbox" label="Remember me" name="rememberMe" checked={formData.rememberMe} onChange={handleChange} />
-                        </Form.Group>
-
-                        <Button variant="primary" type="submit" className="w-100">
-                            Login
-                        </Button>
-                        <div className="text-center mt-3">
-                            Don’t have an account? <a href="/register" className="text-primary">Register</a>
-                        </div>
-                    </Form>
-                </Col>
-            </Row>
-        </Container>
-    );
+  return (
+    <div
+      className="flex flex-col items-center justify-center min-h-screen bg-cover bg-center bg-[#FFF8DC]"
+      style={{ backgroundImage: 'url(http://localhost:3000/login)' }}
+    >
+      <div className="bg-white p-8 rounded-lg shadow-lg max-w-md w-full">
+        <div className="flex justify-center mb-6">
+          <FaReact className="text-6xl text-[#6C0345]" /> {/* React icon */}
+        </div>
+        <h2 className="text-3xl font-bold text-center mb-6 text-[#6C0345]">Login</h2>
+        <form onSubmit={handleSubmit}>
+          <div className="mb-4">
+            <label htmlFor="email" className="block text-lg font-medium text-[#6C0345] mb-2">Email</label>
+            <input
+              type="email"
+              name="email"
+              id="email"
+              value={formData.email}
+              onChange={handleChange}
+              required
+              className="w-full p-3 border rounded-md focus:outline-none focus:ring-2 focus:ring-[#DC6B19]"
+            />
+          </div>
+          <div className="mb-6">
+            <label htmlFor="password" className="block text-lg font-medium text-[#6C0345] mb-2">Password</label>
+            <input
+              type="password"
+              name="password"
+              id="password"
+              value={formData.password}
+              onChange={handleChange}
+              required
+              className="w-full p-3 border rounded-md focus:outline-none focus:ring-2 focus:ring-[#DC6B19]"
+            />
+          </div>
+          <button
+            type="submit"
+            className="w-full bg-[#DC6B19] text-white py-3 rounded-md text-lg font-semibold transition duration-300 ease-in-out hover:bg-[#F7C566] hover:text-[#6C0345]"
+          >
+            Login
+          </button>
+        </form>
+        <div className="text-center mt-6">
+          <p className="text-lg text-[#6C0345]">Don't have an account?</p>
+          <button
+            onClick={navigateToRegister}
+            className="mt-2 bg-transparent text-[#DC6B19] py-2 px-4 rounded-md border border-[#DC6B19] text-lg font-semibold transition duration-300 ease-in-out hover:bg-[#DC6B19] hover:text-white"
+          >
+            Create Account
+          </button>
+        </div>
+      </div>
+    </div>
+  );
 }
 
 export default Login;

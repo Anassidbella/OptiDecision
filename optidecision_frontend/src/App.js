@@ -1,3 +1,4 @@
+import './App.css'
 import React from 'react';
 import { BrowserRouter as Router, Route, Routes } from 'react-router-dom';
 import NavigationBar from './components/Navbar';
@@ -11,6 +12,7 @@ import ProjectSetup from './components/pages/ProjectSetup';
 import PairComparison from './components/pages/PairComparison';
 import Register from './components/pages/Register';
 import Alternative from "./components/pages/alternative";
+import RankingPage from './components/pages/RankingPage';
 
 
 
@@ -31,6 +33,7 @@ function App() {
           <Route path="/demo" element={<ProjectSetup />} />
           <Route path="/pair-comparison" element={<PairComparison />} />
           <Route path="/register" element={<Register />} />
+          <Route path='ranking' element={<RankingPage />}/>
         </Routes>
         </main>
         <Footer />

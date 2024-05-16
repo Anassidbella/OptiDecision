@@ -31,8 +31,8 @@ const predefinedProjects = [
 ];
 
 const addButtonClass = "px-4 py-2 bg-[#6C0345] text-white rounded-md mr-2 transition duration-300 ease-in-out transform hover:scale-105";
-const addsubButtonClass = "px-4 py-2 bg-[#DC6B19] text-white rounded-md mr-2 my-4 transition duration-300 ease-in-out transform hover:scale-105";
-const hideButtonClass = " flex items-center justify-center px-4 py-2 bg-green-500 text-white rounded-md mr-2 transition duration-300 ease-in-out transform hover:scale-105";
+const addSubButtonClass = "px-4 py-2 bg-[#DC6B19] text-white rounded-md mr-2 my-4 transition duration-300 ease-in-out transform hover:scale-105";
+const hideButtonClass = "flex items-center justify-center px-4 py-2 bg-green-500 text-white rounded-md mr-2 transition duration-300 ease-in-out transform hover:scale-105";
 const deleteButtonClass = "px-3 py-1 bg-red-500 text-white rounded-md transition duration-300 ease-in-out transform hover:scale-105";
 
 function ProjectSetup() {
@@ -76,9 +76,7 @@ function ProjectSetup() {
 
   const addCriteria = (event) => {
     event.preventDefault();
-    if (criteria.length < 5) {
-      setCriteria([...criteria, { name: '', subCriteria: [] }]);
-    }
+    setCriteria([...criteria, { name: '', subCriteria: [] }]);
   };
 
   const removeCriteria = (criteriaIndex) => {
@@ -89,13 +87,11 @@ function ProjectSetup() {
   const addSubCriteria = (criteriaIndex, event) => {
     event.preventDefault();
     const updatedCriteria = [...criteria];
-    if (updatedCriteria[criteriaIndex].subCriteria.length < 3) {
-      updatedCriteria[criteriaIndex] = {
-        ...updatedCriteria[criteriaIndex],
-        subCriteria: [...updatedCriteria[criteriaIndex].subCriteria, '']
-      };
-      setCriteria(updatedCriteria);
-    }
+    updatedCriteria[criteriaIndex] = {
+      ...updatedCriteria[criteriaIndex],
+      subCriteria: [...updatedCriteria[criteriaIndex].subCriteria, '']
+    };
+    setCriteria(updatedCriteria);
   };
 
   const removeSubCriteria = (criteriaIndex, subCriteriaIndex) => {
@@ -119,7 +115,7 @@ function ProjectSetup() {
   const renderCriteriaList = () => {
     if (!displayTree) {
       return (
-        <div className="xl:grid xl:grid-cols-2 gap-2">
+        <div className="xl:grid xl:grid-cols-2 gap-2 ">
           {criteria.map((criterion, index) => (
             <div key={index} className="border rounded-md p-4 my-4">
               <div className="flex items-center justify-between mb-3">
@@ -150,7 +146,7 @@ function ProjectSetup() {
                   </div>
                 </div>
               ))}
-              <button onClick={(e) => addSubCriteria(index, e)} disabled={criterion.subCriteria.length >= 3} className={addsubButtonClass}>Ajouter sous-critère</button>
+              <button onClick={(e) => addSubCriteria(index, e)} className={addSubButtonClass}>Ajouter sous-critère</button>
             </div>
           ))}
         </div>
@@ -158,7 +154,7 @@ function ProjectSetup() {
     }
     return null;
   };
-  
+
   const handleDisplayTree = (event) => {
     event.preventDefault();
     setDisplayTree(!displayTree);
@@ -170,23 +166,23 @@ function ProjectSetup() {
   };
 
   return (
-    <div className="bg-gray-100 min-h-screen py-8 ">
-      <div className="container mx-auto  bg-gray-50 p-12 rounded-md shadow-xl border-2 border-gray-300">
-        <h1 className="text-center  text-5xl font-mono mb-8 text-[#6C0345]">Configuration du projet</h1>
+    <div className="bg-gray-100 min-h-screen px-12 py-24 ">
+      <div className="container mx-auto bg-gray-50 p-12 rounded-md shadow-xl border-2 border-gray-300">
+        <h1 className="text-center text-5xl font-mono mb-8 text-[#6C0345]">Configuration du projet</h1>
         <form>
-        <div className="mb-4 flex items-center justify-center">
-          <div className="relative w-3/4">
-            <input
-              type="text"
-              id="projectName"
-              value={projectName}
-              onChange={handleProjectSelection}
-              placeholder="Entrez un nom pour votre projet"
-              list="predefined-projects"
-              className="border border-gray-300 rounded-md p-2 pl-10 w-full focus:outline-none focus:ring-2 focus:ring-yellow-500 focus:border-transparent bg-gradient-to-r from-green-800 to-yellow-200 bg-clip-text text-transparent bg-gray-100 hover:bg-gray-200 transition duration-300 shadow-md"
-            />
-            <SearchIcon className="absolute h-6 w-6 text-gray-400 top-1/2 right-3 transform -translate-y-1/2" />
-          </div>
+          <div className="mb-4 flex items-center justify-center">
+            <div className="relative w-3/4">
+              <input
+                type="text"
+                id="projectName"
+                value={projectName}
+                onChange={handleProjectSelection}
+                placeholder="Entrez un nom pour votre projet"
+                list="predefined-projects"
+                className="border border-gray-300 rounded-md p-2 pl-10 w-full focus:outline-none focus:ring-2 focus:ring-yellow-500 focus:border-transparent bg-gradient-to-r from-green-800 to-yellow-200 bg-clip-text text-transparent bg-gray-100 hover:bg-gray-200 transition duration-300 shadow-md"
+              />
+              <SearchIcon className="absolute h-6 w-6 text-gray-400 top-1/2 right-3 transform -translate-y-1/2" />
+            </div>
             <datalist id="predefined-projects">
               {predefinedProjects.map((project, index) => (
                 <option key={index} value={project.name} />
@@ -195,40 +191,36 @@ function ProjectSetup() {
           </div>
 
           <div className="flex justify-between items-center p-8">
-            <button onClick={addCriteria} disabled={criteria.length >= 5} className={addButtonClass}>Ajouter critère</button>
-            <div className={hideButtonClass} >
-            <button onClick={handleDisplayTree} >
-              {displayTree ? 'Cacher' : 'Afficher'} l'arbre 
-            </button>
-            <FiGitBranch size={20} className="ml-3 text-green-900 " />
-          </div>
-
-
+            <button onClick={addCriteria} className={addButtonClass}>Ajouter critère</button>
+            <div className={hideButtonClass}>
+              <button onClick={handleDisplayTree}>
+                {displayTree ? 'Cacher' : 'Afficher'} l'arbre 
+              </button>
+              <FiGitBranch size={20} className="ml-3 text-green-900 " />
+            </div>
           </div>
 
           <div>
             {renderCriteriaList()}
           </div>
-            {/* Ici le design du tree */}
-              {displayTree && (
+          
+          {displayTree && (
             <div ref={treeContainerRef} className="mt-8 shadow-lg border-b-4 mb-8 flex justify-center h-[500px]">
-             <Tree
-              data={createTreeData()}
-              translate={treeTranslate}
-              orientation="vertical"
-              pathFunc="step"
-              zoomable={true}
-              separation={{ siblings: 1.8, nonSiblings: 0.8 }} // Espacement entre les nœuds
-
-/>
-
+              <Tree
+                data={createTreeData()}
+                translate={treeTranslate}
+                orientation="vertical"
+                pathFunc="step"
+                zoomable={true}
+                separation={{ siblings: 1.8, nonSiblings: 0.8 }}
+              />
             </div>
           )}
 
           <div className="flex justify-center">
-          <button onClick={handleGoToPairComparison} className="px-4 py-2 rounded-md transition duration-500 ease-in-out transform hover:scale-125 bg-gradient-to-r from-[#6C0345] via-[#DC6B19] to-[#F7C566] text-white">
-          Passer à la comparaison par paire
-        </button>
+            <button onClick={handleGoToPairComparison} className="px-4 py-2 rounded-md transition duration-500 ease-in-out transform hover:scale-125 bg-gradient-to-r from-[#6C0345] via-[#DC6B19] to-[#F7C566] text-white">
+              Passer à la comparaison par paire
+            </button>
           </div>
         </form>
       </div>
