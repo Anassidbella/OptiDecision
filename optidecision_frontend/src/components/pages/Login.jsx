@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
-import { FaReact } from 'react-icons/fa'; // Import React icon from react-icons
+import { FaReact } from 'react-icons/fa';
 
 function Login() {
   const [formData, setFormData] = useState({ email: '', password: '' });
@@ -11,12 +11,28 @@ function Login() {
     setFormData({ ...formData, [name]: value });
   };
 
-  const handleSubmit = (e) => {
+  const handleSubmit = async (e) => {
     e.preventDefault();
-    console.log(formData);
-    // Handle login logic here
-    alert('Login successful!');
-    navigate('/dashboard'); // Adjust the path as needed
+    try {
+      const response = await fetch('http://localhost:8000/api/token/', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ username: formData.email, password: formData.password }),
+      });
+
+      if (response.ok) {
+        const data = await response.json();
+        localStorage.setItem('access_token', data.access);
+        localStorage.setItem('refresh_token', data.refresh);
+        alert('Login successful!');
+        navigate('/dashboard');
+      } else {
+        alert('Login failed!');
+      }
+    } catch (error) {
+      console.error('Error:', error);
+      alert('An error occurred. Please try again.');
+    }
   };
 
   const navigateToRegister = () => {
@@ -24,13 +40,10 @@ function Login() {
   };
 
   return (
-    <div
-      className="flex flex-col items-center justify-center min-h-screen bg-cover bg-center bg-[#FFF8DC]"
-      style={{ backgroundImage: 'url(http://localhost:3000/login)' }}
-    >
+    <div className="flex flex-col items-center justify-center min-h-screen bg-cover bg-center bg-[#FFF8DC]">
       <div className="bg-white p-8 rounded-lg shadow-lg max-w-md w-full">
         <div className="flex justify-center mb-6">
-          <FaReact className="text-6xl text-[#6C0345]" /> {/* React icon */}
+          <FaReact className="text-6xl text-[#6C0345]" />
         </div>
         <h2 className="text-3xl font-bold text-center mb-6 text-[#6C0345]">Login</h2>
         <form onSubmit={handleSubmit}>

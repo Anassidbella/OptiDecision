@@ -129,7 +129,7 @@ function PairComparison() {
                             <option value="7">7: Très adapté</option>
                             <option value="9">9: Trop adapté</option>
                           </select>
-                        ) : '-'}
+                        ) : '1'}
                       </td>
                     ))}
                   </tr>

@@ -1,7 +1,11 @@
 from rest_framework.views import APIView
 from rest_framework.response import Response
 from rest_framework import status
+from rest_framework import generics
 import numpy as np
+from rest_framework.permissions import AllowAny
+from django.contrib.auth.models import User
+from .models import Profile
 
 class CalculateWeightsView(APIView):
     def post(self, request, *args, **kwargs):
@@ -83,3 +87,24 @@ class TOPSISView(APIView):
             # Ajouter d'autres données de résultats si nécessaire
         }
         return Response(results, status=status.HTTP_200_OK)
+
+
+class RegisterUserView(generics.CreateAPIView):
+    permission_classes = [AllowAny]
+
+    def post(self, request, *args, **kwargs):
+        username = request.data.get('username')
+        password = request.data.get('password')
+        first_name = request.data.get('first_name')
+        last_name = request.data.get('last_name')
+        email = request.data.get('email')
+
+        if not username or not password or not first_name or not last_name or not email:
+            return Response({'error': 'All fields are required'}, status=status.HTTP_400_BAD_REQUEST)
+        
+        if password != request.data.get('confirm_password'):
+            return Response({'error': 'Passwords do not match'}, status=status.HTTP_400_BAD_REQUEST)
+        
+        user = User.objects.create_user(username=username, password=password)
+        profile = Profile.objects.create(user=user, first_name=first_name, last_name=last_name, email=email)
+        return Response({'message': 'User created successfully'}, status=status.HTTP_201_CREATED)
