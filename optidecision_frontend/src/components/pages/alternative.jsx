@@ -36,6 +36,7 @@ function Alternative() {
     };
 
     const handleSubmit = async () => {
+        const token = localStorage.getItem('access_token');
         // Créer un tableau pour stocker les données des alternatives au format requis
         const formattedData = alternatives.map((alt,index) => {
             const scores = {};
@@ -54,7 +55,9 @@ function Alternative() {
         
         try {
             // Envoyer les données des alternatives vers le backend
-            const response = await axios.post('http://localhost:8000/api/topsis/', { alternatives: formattedData });
+            const response = await axios.post('http://localhost:8000/api/topsis/', 
+        { alternatives: formattedData }, 
+        { headers: { 'Authorization': `Bearer ${token}` } });
             console.log("TOPSIS results:", response.data); // Affiche les résultats après réception
             
             // Utiliser le routeur de réaction pour naviguer vers la page RankingPage

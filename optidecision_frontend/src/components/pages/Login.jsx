@@ -4,6 +4,7 @@ import { FaReact } from 'react-icons/fa';
 
 function Login() {
   const [formData, setFormData] = useState({ username: '', password: '' });
+  const [successMessage, setSuccessMessage] = useState('');
   const navigate = useNavigate();
 
   const handleChange = (e) => {
@@ -24,9 +25,11 @@ function Login() {
         const data = await response.json();
         localStorage.setItem('access_token', data.access);
         localStorage.setItem('refresh_token', data.refresh);
-        localStorage.setItem('username',formData.username)
-        alert('Login successful!');
-        navigate('/demo');
+        localStorage.setItem('username', formData.username);
+        setSuccessMessage('Login successful!');
+        setTimeout(() => {
+          navigate('/demo');
+        }, 3000); // Wait for 3 seconds before redirecting
       } else {
         alert('Login failed!');
       }
@@ -42,19 +45,24 @@ function Login() {
 
   return (
     <div className="flex flex-col items-center justify-center min-h-screen bg-cover bg-center bg-[#FFF8DC]">
-      <div className="bg-white p-8 rounded-lg shadow-lg max-w-md w-full">
+      <div className="bg-white p-8 rounded-lg shadow-lg max-w-md w-full relative">
         <div className="flex justify-center mb-6">
           <FaReact className="text-6xl text-[#6C0345]" />
         </div>
         <h2 className="text-3xl font-bold text-center mb-6 text-[#6C0345]">Login</h2>
-        <form onSubmit={handleSubmit}>
+        {successMessage && (
+          <div className="absolute top-0 left-0 w-full bg-green-500 text-white text-center py-2 rounded-t-lg">
+            {successMessage}
+          </div>
+        )}
+        <form onSubmit={handleSubmit} className={successMessage ? 'mt-8' : ''}>
           <div className="mb-4">
             <label htmlFor="username" className="block text-lg font-medium text-[#6C0345] mb-2">Username</label>
             <input
               type="text"
               name="username"
               id="username"
-              value={formData.email}
+              value={formData.username}
               onChange={handleChange}
               required
               className="w-full p-3 border rounded-md focus:outline-none focus:ring-2 focus:ring-[#DC6B19]"

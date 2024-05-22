@@ -1,21 +1,34 @@
 import React, { useState, useEffect } from 'react';
-import axios from 'axios';
 import { useLocation } from 'react-router-dom';
 
 function RankingPage() {
   const [rankedAlternatives, setRankedAlternatives] = useState([]);
   const [message, setMessage] = useState('');
   const location = useLocation();
-  const { formattedData } = location.state || {}; // Obtenez les données formatées de l'état de l'emplacement
+  const { formattedData } = location.state || {}; // Obtain the formatted data from location state
 
   useEffect(() => {
     if (formattedData) {
       const fetchData = async () => {
+        const token = localStorage.getItem('access_token'); 
+
         try {
-          const response = await axios.post('http://localhost:8000/api/topsis/', {
-            alternatives: formattedData 
+          const response = await fetch('http://localhost:8000/api/topsis/', {
+            method: 'POST',
+            headers: {
+              'Content-Type': 'application/json',
+              'Accept': 'application/json',
+              'Authorization': `Bearer ${token}`, // Add the token here
+            },
+            body: JSON.stringify({ alternatives: formattedData }),
           });
-          const { ranked_alternatives, message } = response.data;
+
+          if (!response.ok) {
+            throw new Error(`HTTP error! Status: ${response.status}`);
+          }
+
+          const data = await response.json();
+          const { ranked_alternatives, message } = data;
           setRankedAlternatives(ranked_alternatives);
           setMessage(message);
         } catch (error) {
@@ -29,8 +42,7 @@ function RankingPage() {
 
   return (
     <div className="container mx-auto py-16 px-4 md:px-8">
-<h1 className="text-3xl font-semibold text-center text-purple-600 mb-4 pb-2 border-b-2 border-purple-600 border-dashed">Classement des Alternatives</h1>
-      
+      <h1 className="text-3xl font-semibold text-center text-purple-600 mb-4 pb-2 border-b-2 border-purple-600 border-dashed">Classement des Alternatives</h1>
       <div className="max-w-lg mx-auto mb-8">
         <p className="text-lg font-medium text-center mb-4 text-gray-700">{message}</p>
         <div className="flex flex-col space-y-4">

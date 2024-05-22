@@ -2,6 +2,8 @@ import React from 'react';
 import homeImage from '../../assets/images/optimization.jpg';
 import FAQ from '../part/Faq';
 import { Link } from 'react-router-dom';
+import NotreMarque from '../part/NotreMarque';
+
 function Home() {
   return (
     <div className="w-full">
@@ -14,13 +16,15 @@ function Home() {
             <Link to="/demo" className="bg-[#6C0345] text-white py-2 px-6 rounded-lg shadow-md hover:bg-[#4A0229] transition duration-300 mt-2 no-underline">En savoir plus</Link>
           </div>
           {/* Section droite (Image) */}
-          <div className="py-2 w-[80%]">
+          <div className="py-2 w-full h-full">
             <img src={homeImage} className="w-full h-auto rounded-lg shadow-md" alt="OptiDecision" />
           </div>
         </div>
-
+        <NotreMarque />
         <FAQ />
-      </div>
+
+        
+          </div>
     </div>
   );
 }
