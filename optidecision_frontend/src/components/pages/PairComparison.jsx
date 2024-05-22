@@ -70,12 +70,14 @@ function PairComparison() {
 
   // Soumettre les données pour calculer les poids
   const handleSubmit = async () => {
+    const token = localStorage.getItem('access_token');
     try {
       const response = await fetch('http://localhost:8000/api/weights/', {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',
           'Accept': 'application/json',
+          'Authorization': `Bearer ${token}`, // Add the token here
         },
         body: JSON.stringify({ pairwiseComparisons }),
       });
@@ -88,7 +90,6 @@ function PairComparison() {
       console.error('Échec du calcul des poids:', error);
     }
   };
-
   // Aller à la page des alternatives
   const handleGoToAlternatives = (event) => {
     event.preventDefault();

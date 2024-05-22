@@ -2,7 +2,6 @@ import React, { useState, useEffect } from 'react';
 import { NavLink, useNavigate } from 'react-router-dom';
 import { HiMenu } from 'react-icons/hi';
 import '../index.css';
-
 const NavbarCss = {
   navbar: 'bg-[#6C0345] p-3 ',
   brand: 'text-yellow-300 text-xl font-mono font-semibold',
@@ -39,7 +38,9 @@ function NavigationBar() {
     <nav className={NavbarCss.navbar}>
       <div className="container mx-auto md:flex md:justify-between">
         <div className="flex items-center justify-between">
-          <span className={NavbarCss.brand}>OptiDecision</span>
+        <span className={NavbarCss.brand}>
+          Optidecision
+        </span>
           <button className={NavbarCss.mobileMenuButton} onClick={toggleMenu}>
             <HiMenu className="h-6 w-6 text-white" />
           </button>
@@ -52,7 +53,7 @@ function NavigationBar() {
           {username ? (
             <>
               <NavLink to="/demo" className={NavbarCss.link} onClick={toggleMenu}>Demo</NavLink>
-              <span className={`${NavbarCss.link} mt-2`}>Hello, {username}</span>
+              <span className={`${NavbarCss.link} mt-2`}>Bonjour, {username}</span>
               <button onClick={handleLogout} className={`${NavbarCss.link} bg-red-500 text-white`}>Logout</button>
             </>
           ) : (
