@@ -3,7 +3,7 @@ import { useNavigate } from 'react-router-dom';
 import { FaReact } from 'react-icons/fa';
 
 function Login() {
-  const [formData, setFormData] = useState({ email: '', password: '' });
+  const [formData, setFormData] = useState({ username: '', password: '' });
   const navigate = useNavigate();
 
   const handleChange = (e) => {
@@ -17,15 +17,16 @@ function Login() {
       const response = await fetch('http://localhost:8000/api/token/', {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({ username: formData.email, password: formData.password }),
+        body: JSON.stringify({ username: formData.username, password: formData.password }),
       });
 
       if (response.ok) {
         const data = await response.json();
         localStorage.setItem('access_token', data.access);
         localStorage.setItem('refresh_token', data.refresh);
+        localStorage.setItem('username',formData.username)
         alert('Login successful!');
-        navigate('/dashboard');
+        navigate('/demo');
       } else {
         alert('Login failed!');
       }
@@ -48,11 +49,11 @@ function Login() {
         <h2 className="text-3xl font-bold text-center mb-6 text-[#6C0345]">Login</h2>
         <form onSubmit={handleSubmit}>
           <div className="mb-4">
-            <label htmlFor="email" className="block text-lg font-medium text-[#6C0345] mb-2">Email</label>
+            <label htmlFor="username" className="block text-lg font-medium text-[#6C0345] mb-2">Username</label>
             <input
-              type="email"
-              name="email"
-              id="email"
+              type="text"
+              name="username"
+              id="username"
               value={formData.email}
               onChange={handleChange}
               required
