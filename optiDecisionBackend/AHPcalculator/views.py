@@ -108,3 +108,4 @@ class RegisterUserView(generics.CreateAPIView):
         user = User.objects.create_user(username=username, password=password)
         profile = Profile.objects.create(user=user, first_name=first_name, last_name=last_name, email=email)
         return Response({'message': 'User created successfully'}, status=status.HTTP_201_CREATED)
+    
