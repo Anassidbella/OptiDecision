@@ -1,3 +1,4 @@
+from sqlite3 import IntegrityError
 from rest_framework.views import APIView
 from rest_framework.response import Response
 from rest_framework import status
@@ -87,21 +88,6 @@ class TOPSISView(APIView):
             # Ajouter d'autres données de résultats si nécessaire
         }
         return Response(results, status=status.HTTP_200_OK)
-
-
-from django.db import IntegrityError
-from django.contrib.auth.models import User
-from rest_framework import status, generics
-from rest_framework.response import Response
-from rest_framework.permissions import AllowAny
-from .models import Profile
-
-from django.db import IntegrityError
-from django.contrib.auth.models import User
-from rest_framework import status, generics
-from rest_framework.response import Response
-from rest_framework.permissions import AllowAny
-from .models import Profile
 
 class RegisterUserView(generics.CreateAPIView):
     permission_classes = [AllowAny]
