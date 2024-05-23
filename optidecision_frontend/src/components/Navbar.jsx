@@ -53,7 +53,7 @@ function NavigationBar() {
           {username ? (
             <>
               <NavLink to="/demo" className={NavbarCss.link} onClick={toggleMenu}>Demo</NavLink>
-              <span className={`${NavbarCss.link} mt-2`}>Bonjour, {username}</span>
+              <span className={`${NavbarCss.link} mt-2 mr-3`}>Bonjour, {username}</span>
               <button onClick={handleLogout} className={`${NavbarCss.link} bg-red-500 text-white`}>Logout</button>
             </>
           ) : (
