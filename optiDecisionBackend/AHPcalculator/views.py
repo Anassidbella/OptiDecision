@@ -89,6 +89,20 @@ class TOPSISView(APIView):
         return Response(results, status=status.HTTP_200_OK)
 
 
+from django.db import IntegrityError
+from django.contrib.auth.models import User
+from rest_framework import status, generics
+from rest_framework.response import Response
+from rest_framework.permissions import AllowAny
+from .models import Profile
+
+from django.db import IntegrityError
+from django.contrib.auth.models import User
+from rest_framework import status, generics
+from rest_framework.response import Response
+from rest_framework.permissions import AllowAny
+from .models import Profile
+
 class RegisterUserView(generics.CreateAPIView):
     permission_classes = [AllowAny]
 
@@ -104,8 +118,16 @@ class RegisterUserView(generics.CreateAPIView):
         
         if password != request.data.get('confirm_password'):
             return Response({'error': 'Passwords do not match'}, status=status.HTTP_400_BAD_REQUEST)
+
+        if User.objects.filter(username=username).exists():
+            return Response({'username': ['This username is already taken.']}, status=status.HTTP_400_BAD_REQUEST)
         
-        user = User.objects.create_user(username=username, password=password)
-        profile = Profile.objects.create(user=user, first_name=first_name, last_name=last_name, email=email)
-        return Response({'message': 'User created successfully'}, status=status.HTTP_201_CREATED)
-    
+        if User.objects.filter(email=email).exists():
+            return Response({'email': ['This email is already registered.']}, status=status.HTTP_400_BAD_REQUEST)
+        
+        try:
+            user = User.objects.create_user(username=username, password=password, email=email)
+            Profile.objects.create(user=user, first_name=first_name, last_name=last_name)
+            return Response({'message': 'User created successfully'}, status=status.HTTP_201_CREATED)
+        except IntegrityError:
+            return Response({'error': 'Registration failed'}, status=status.HTTP_400_BAD_REQUEST)
