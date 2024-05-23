@@ -1,0 +1,20 @@
+version: '3.8'
+
+services:
+  frontend:
+    build:
+      context: ./optidecision_frontend
+    ports:
+      - "3000:80"
+    depends_on:
+      - backend
+
+  backend:
+    build:
+      context: ./optiDecisionBackendProject
+    command: ["sh", "-c", "python manage.py migrate && python manage.py runserver 0.0.0.0:8000"]
+    volumes:
+      - ./optiDecisionBackendProject:/app
+      - ./optiDecisionBackendProject/db.sqlite3:/app/db.sqlite3
+    ports:
+      - "8000:8000"
