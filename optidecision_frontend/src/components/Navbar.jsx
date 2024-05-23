@@ -47,12 +47,12 @@ function NavigationBar() {
         </div>
         <div className={`md:flex md:items-end ${isOpen ? 'block' : 'hidden'}`}>
           <NavLink to="/" className={NavbarCss.link} onClick={toggleMenu}>Home</NavLink>
-          <NavLink to="/about" className={NavbarCss.link} onClick={toggleMenu}>About Us</NavLink>
           <NavLink to="/services" className={NavbarCss.link} onClick={toggleMenu}>Services</NavLink>
           <NavLink to="/contact" className={NavbarCss.link} onClick={toggleMenu}>Contact Us</NavLink>
+          <NavLink to="/about" className={NavbarCss.link} onClick={toggleMenu}>About Us</NavLink>
           {username ? (
             <>
-              <NavLink to="/demo" className={NavbarCss.link} onClick={toggleMenu}>Demo</NavLink>
+              <NavLink to="/demo" className={NavbarCss.link} onClick={toggleMenu}>PairComparaison</NavLink>
               <span className={`${NavbarCss.link} mt-2 mr-3`}>Bonjour, {username}</span>
               <button onClick={handleLogout} className={`${NavbarCss.link} bg-red-500 text-white`}>Logout</button>
             </>
