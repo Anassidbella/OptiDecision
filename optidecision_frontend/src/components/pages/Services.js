@@ -1,5 +1,6 @@
 import React from 'react';
 import { useNavigate } from 'react-router-dom';
+import { useSpring, animated } from 'react-spring';
 
 function Services() {
   const navigate = useNavigate();
@@ -8,31 +9,37 @@ function Services() {
     navigate('/demo'); // Adjust the path as needed
   };
 
+  const cardAnimationProps = useSpring({
+    from: { opacity: 0, transform: 'translateY(-50px)' },
+    to: { opacity: 1, transform: 'translateY(0)' },
+    config: { tension: 300, friction: 10 },
+  });
+
   return (
     <div className="container mx-auto py-12">
       <h1 className="text-4xl font-bold text-center mb-12 text-[#6C0345]">Why OptiDecision?</h1>
       <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
         
-        <div className="bg-white p-6 rounded-lg shadow-lg">
+        <animated.div style={cardAnimationProps} className="bg-white p-6 rounded-lg shadow-lg hover:shadow-xl cursor-pointer transition duration-300 ease-in-out transform hover:scale-105">
           <h2 className="text-2xl font-semibold mb-4 text-[#DC6B19]">Analytic Hierarchy Process (AHP)</h2>
           <p className="text-lg leading-relaxed text-[#6C0345]">
             AHP simplifies complex decision-making by breaking down the process into a hierarchy of more manageable parts. This approach allows for a systematic comparison of different criteria, ensuring every aspect of the decision is considered.
           </p>
-        </div>
+        </animated.div>
         
-        <div className="bg-white p-6 rounded-lg shadow-lg">
+        <animated.div style={cardAnimationProps} className="bg-white p-6 rounded-lg shadow-lg hover:shadow-xl cursor-pointer transition duration-300 ease-in-out transform hover:scale-105">
           <h2 className="text-2xl font-semibold mb-4 text-[#DC6B19]">Technique for Order of Preference by Similarity to Ideal Solution (TOPSIS)</h2>
           <p className="text-lg leading-relaxed text-[#6C0345]">
             TOPSIS identifies the option that best aligns with the ideal solution. This method not only highlights the most suitable choices but also ranks all available options, providing a clear overview of the alternatives.
           </p>
-        </div>
+        </animated.div>
         
-        <div className="bg-white p-6 rounded-lg shadow-lg">
+        <animated.div style={cardAnimationProps} className="bg-white p-6 rounded-lg shadow-lg hover:shadow-xl cursor-pointer transition duration-300 ease-in-out transform hover:scale-105">
           <h2 className="text-2xl font-semibold mb-4 text-[#DC6B19]">Combining AHP and TOPSIS</h2>
           <p className="text-lg leading-relaxed text-[#6C0345]">
             By integrating AHP and TOPSIS, OptiDecision leverages the strengths of both methods to offer a comprehensive solution that ensures decisions are both optimally chosen and thoroughly evaluated against a set of criteria.
           </p>
-        </div>
+        </animated.div>
 
         {/* You can add more cards here to describe additional services or benefits */}
       </div>

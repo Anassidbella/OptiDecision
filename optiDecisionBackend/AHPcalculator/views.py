@@ -84,7 +84,6 @@ class TOPSISView(APIView):
         results = {
             "message": "TOPSIS analysis completed successfully",
             "ranked_alternatives": ranked_alternatives,
-            # Ajouter d'autres données de résultats si nécessaire
         }
         return Response(results, status=status.HTTP_200_OK)
 

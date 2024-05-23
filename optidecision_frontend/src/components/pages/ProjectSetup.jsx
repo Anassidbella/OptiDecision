@@ -34,11 +34,13 @@ const addButtonClass = "px-4 py-2 bg-[#6C0345] text-white rounded-md mr-2 transi
 const addSubButtonClass = "px-4 py-2 bg-[#DC6B19] text-white rounded-md mr-2 my-4 transition duration-300 ease-in-out transform hover:scale-105";
 const hideButtonClass = "flex items-center justify-center px-4 py-2 bg-green-500 text-white rounded-md mr-2 transition duration-300 ease-in-out transform hover:scale-105";
 const deleteButtonClass = "px-3 py-1 bg-red-500 text-white rounded-md transition duration-300 ease-in-out transform hover:scale-105";
+const zoomButtonClass = "px-3 py-1 bg-blue-500 text-white rounded-md transition duration-300 ease-in-out transform hover:scale-105 mx-2";
 
 function ProjectSetup() {
   const [projectName, setProjectName] = useState('');
   const [criteria, setCriteria] = useState([]);
   const [displayTree, setDisplayTree] = useState(false);
+  const [zoomLevel, setZoomLevel] = useState(1);
   const navigate = useNavigate();
   const treeContainerRef = useRef();
 
@@ -165,8 +167,16 @@ function ProjectSetup() {
     navigate('/pair-comparison', { state: { projectName, criteria } });
   };
 
+  const handleZoomIn = () => {
+    setZoomLevel(zoomLevel * 1.2);
+  };
+
+  const handleZoomOut = () => {
+    setZoomLevel(zoomLevel / 1.2);
+  };
+
   return (
-    <div className="bg-gray-100 min-h-screen px-12 py-24 ">
+    <div className="bg-gray-100 min-h-screen px-12 py-24">
       <div className="container mx-auto bg-gray-50 p-12 rounded-md shadow-xl border-2 border-gray-300">
         <h1 className="text-center text-5xl font-mono mb-8 text-[#6C0345]">Configuration du projet</h1>
         <form>
@@ -189,31 +199,39 @@ function ProjectSetup() {
               ))}
             </datalist>
           </div>
-
-          <div className="flex justify-between items-center p-8">
+          <div className="flex items-center justify-center mb-8">
             <button onClick={addCriteria} className={addButtonClass}>Ajouter critère</button>
-            <div className={hideButtonClass}>
-              <button onClick={handleDisplayTree}>
-                {displayTree ? 'Cacher' : 'Afficher'} l'arbre 
+            <button onClick={handleDisplayTree} className={hideButtonClass}>
+              {displayTree ? 'Cacher' : 'Afficher'} l'arbre
               </button>
-              <FiGitBranch size={20} className="ml-3 text-green-900 " />
-            </div>
+            <FiGitBranch size={20} className="ml-3 text-green-900" />
           </div>
 
           <div>
             {renderCriteriaList()}
           </div>
-          
+
           {displayTree && (
-            <div ref={treeContainerRef} className="mt-8 shadow-lg border-b-4 mb-8 flex justify-center h-[500px]">
-              <Tree
-                data={createTreeData()}
-                translate={treeTranslate}
-                orientation="vertical"
-                pathFunc="step"
-                zoomable={true}
-                separation={{ siblings: 1.8, nonSiblings: 0.8 }}
-              />
+            <div>
+              <div ref={treeContainerRef} className="mt-8 shadow-lg border-b-4 mb-8 flex justify-center h-[500px]">
+                <Tree
+                  data={createTreeData()}
+                  translate={treeTranslate}
+                  orientation="vertical"
+                  pathFunc="diagonal"
+                  zoomable={true}
+                  zoom={zoomLevel}
+                  separation={{ siblings: 2, nonSiblings: 2 }}
+                  depthFactor={200}
+                  styles={{
+                    links: { stroke: '#DC6B19', strokeWidth: 2 },
+                    nodes: {
+                      node: { circle: { stroke: '#6C0345', strokeWidth: 3, r: 15 }, name: { fill: '#6C0345', fontSize: '1.2em', fontWeight: 'bold' } },
+                      leafNode: { circle: { stroke: '#6C0345', strokeWidth: 2, r: 10 }, name: { fill: '#6C0345', fontSize: '1em', fontWeight: 'normal' } },
+                    }
+                  }}
+                />
+              </div>
             </div>
           )}
 

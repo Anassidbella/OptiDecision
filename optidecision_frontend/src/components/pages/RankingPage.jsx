@@ -5,7 +5,7 @@ function RankingPage() {
   const [rankedAlternatives, setRankedAlternatives] = useState([]);
   const [message, setMessage] = useState('');
   const location = useLocation();
-  const { formattedData } = location.state || {}; // Obtain the formatted data from location state
+  const { formattedData } = location.state || {};
 
   useEffect(() => {
     if (formattedData) {
