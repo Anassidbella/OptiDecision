@@ -1,5 +1,6 @@
 import React, { useState } from 'react';
 import axios from 'axios';
+import { useNavigate } from 'react-router-dom';
 
 function Register() {
   const [formData, setFormData] = useState({
@@ -12,6 +13,8 @@ function Register() {
     acceptTerms: false,
   });
 
+  
+  const navigate = useNavigate();
   const [errors, setErrors] = useState({});
 
   const handleChange = (e) => {
@@ -43,6 +46,7 @@ function Register() {
       });
       alert('Registration Successful!');
       console.log(response.data);
+      navigate('/login');
     } catch (error) {
       if (error.response && error.response.data) {
         const serverErrors = error.response.data;
