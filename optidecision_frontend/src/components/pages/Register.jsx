@@ -12,6 +12,8 @@ function Register() {
     acceptTerms: false,
   });
 
+  const [errors, setErrors] = useState({});
+
   const handleChange = (e) => {
     const { name, value, type, checked } = e.target;
     setFormData((prevState) => ({
@@ -22,8 +24,12 @@ function Register() {
 
   const handleSubmit = async (e) => {
     e.preventDefault();
+    setErrors({});
     if (formData.password !== formData.confirmPassword) {
-      alert('Passwords do not match');
+      setErrors((prevErrors) => ({
+        ...prevErrors,
+        confirmPassword: 'Passwords do not match',
+      }));
       return;
     }
     try {
@@ -37,9 +43,13 @@ function Register() {
       });
       alert('Registration Successful!');
       console.log(response.data);
-      // Rediriger vers la page de connexion ou d'accueil
     } catch (error) {
-      console.error('Registration failed:', error);
+      if (error.response && error.response.data) {
+        const serverErrors = error.response.data;
+        setErrors(serverErrors);
+      } else {
+        console.error('Registration failed:', error);
+      }
     }
   };
 
@@ -59,6 +69,7 @@ function Register() {
               required
               className="w-full p-3 border rounded-md focus:outline-none focus:ring-2 focus:ring-[#DC6B19]"
             />
+            {errors.first_name && <p className="text-red-500">{errors.first_name}</p>}
           </div>
           <div className="mb-4">
             <label htmlFor="lastName" className="block text-lg font-medium text-[#6C0345] mb-2">Last Name</label>
@@ -71,6 +82,7 @@ function Register() {
               required
               className="w-full p-3 border rounded-md focus:outline-none focus:ring-2 focus:ring-[#DC6B19]"
             />
+            {errors.last_name && <p className="text-red-500">{errors.last_name}</p>}
           </div>
           <div className="mb-4">
             <label htmlFor="email" className="block text-lg font-medium text-[#6C0345] mb-2">Email</label>
@@ -83,6 +95,7 @@ function Register() {
               required
               className="w-full p-3 border rounded-md focus:outline-none focus:ring-2 focus:ring-[#DC6B19]"
             />
+            {errors.email && <p className="text-red-500">{errors.email}</p>}
           </div>
           <div className="mb-4">
             <label htmlFor="username" className="block text-lg font-medium text-[#6C0345] mb-2">Username</label>
@@ -95,6 +108,7 @@ function Register() {
               required
               className="w-full p-3 border rounded-md focus:outline-none focus:ring-2 focus:ring-[#DC6B19]"
             />
+            {errors.username && <p className="text-red-500">{errors.username}</p>}
           </div>
           <div className="mb-4">
             <label htmlFor="password" className="block text-lg font-medium text-[#6C0345] mb-2">Password</label>
@@ -107,6 +121,7 @@ function Register() {
               required
               className="w-full p-3 border rounded-md focus:outline-none focus:ring-2 focus:ring-[#DC6B19]"
             />
+            {errors.password && <p className="text-red-500">{errors.password}</p>}
           </div>
           <div className="mb-4">
             <label htmlFor="confirmPassword" className="block text-lg font-medium text-[#6C0345] mb-2">Confirm Password</label>
@@ -119,6 +134,7 @@ function Register() {
               required
               className="w-full p-3 border rounded-md focus:outline-none focus:ring-2 focus:ring-[#DC6B19]"
             />
+            {errors.confirmPassword && <p className="text-red-500">{errors.confirmPassword}</p>}
           </div>
           <div className="mb-6">
             <label className="inline-flex items-center">
@@ -131,6 +147,7 @@ function Register() {
               />
               <span className="ml-2 text-lg text-[#6C0345]">I accept the Terms and Conditions</span>
             </label>
+            {errors.acceptTerms && <p className="text-red-500">{errors.acceptTerms}</p>}
           </div>
           <button
             type="submit"
