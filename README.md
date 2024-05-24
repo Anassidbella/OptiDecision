@@ -8,6 +8,8 @@ This document introduces OptiDecision, a platform designed to facilitate multicr
 ## Overview
 
 OptiDecision is a multicriteria decision-making platform designed to handle complex decisions involving multiple, often conflicting criteria. By incorporating both the AHP and TOPSIS methods, OptiDecision allows users to systematically evaluate different options and select the most suitable one based on their specific requirements and preferences. The platform is built to be user-friendly, ensuring accessibility for a broad range of users, from individuals to organizations.
+![webSite](img/1.png)
+![webSite](img/2.png)
 
 ## Software Architecture
 
