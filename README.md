@@ -11,7 +11,7 @@ OptiDecision is a multicriteria decision-making platform designed to handle comp
 
 ## Software Architecture
 
-![archi](img/newArchi.png)
+![archi](img/archi.png)
 
 OptiDecision's architecture follows a decoupled approach, utilizing Django for backend infrastructure and React with Tailwind CSS for the frontend. This structure promotes scalability and maintainability while ensuring efficient communication between the frontend and backend.
 
